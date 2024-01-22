@@ -6,7 +6,11 @@ const getMonthlyData = () =>{
     return res;
 }
 
+const getMonthlySigleData = (id) =>{
+    const res = MonthPicks.findById(id)
+    return res
+}
 
 module.exports = {
-    getMonthlyData
+    getMonthlyData, getMonthlySigleData
 };

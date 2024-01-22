@@ -7,10 +7,11 @@ const port = 3000
 
 
 
-const { getMonthlyData } = require('./APi/MonthlyPicks/monthlyController');
-const { getNewStories } = require('./APi/NewsStories/newsStoriesController');
-const { getSpotlightData } = require('./APi/Spotlight/spotlightController');
+const { getMonthlyData, getMonthlySigleData } = require('./APi/MonthlyPicks/monthlyController');
+const { getNewStories, getSingleStory } = require('./APi/NewsStories/newsStoriesController');
+const { getSpotlightData, getSpotlightSingleData } = require('./APi/Spotlight/spotlightController');
 const { getCategoryData } = require('./APi/Category/categoryController');
+const { getArticleData, getArticleSingleData } = require('./APi/article/articleController');
 
 
 
@@ -50,7 +51,18 @@ mongoose.pluralize(null);
 //************   All APi's Starts   ************************//
 
 
+//article api's
 
+app.get("/api/v1/articles", async(req, res)=>{
+    const result = await getArticleData();
+    res.send(result)
+})
+
+app.get("/api/v1/articles/:id", async(req, res)=>{
+    const id = req.params.id
+    const result = await getArticleSingleData(id)
+    res.send(result)
+})
 
 
 //Monthly Picks Api's
@@ -61,6 +73,11 @@ app.get("/api/v1/monthlyPicks", async(req,res)=>{
     res.send(result);
 })
 
+app.get("/api/v1/monthlyPicks/:id", async(req, res)=>{
+    const id = req.params.id
+    const result = await getMonthlySigleData(id)
+    res.send(result)
+})
 
 //News Stories Api's
 
@@ -70,6 +87,12 @@ app.get("/api/v1/newStories", async(req,res)=>{
     res.send(result);
 })
 
+app.get("/api/v1/newStories/:id", async(req, res)=>{
+    const id = req.params.id
+    const result = await getSingleStory(id)
+    res.send(result)
+})
+
 //Spotlight Api's
 
 app.get("/api/v1/spotlight",async(req,res)=>{
@@ -77,12 +100,21 @@ app.get("/api/v1/spotlight",async(req,res)=>{
     res.send(result);
 })
 
+app.get("/api/v1/spotlight/:id", async(req, res)=>{
+    const id = req.params.id
+    const result = await getSpotlightSingleData(id)
+    res.send(result)
+})
+
+
 // Category Ap's
 
 app.get("/api/v1/category", async(req,res)=>{
     const result = await getCategoryData();
     res.send(result);
 })
+
+
 
 
 

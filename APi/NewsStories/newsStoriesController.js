@@ -6,7 +6,12 @@ const getNewStories = () =>{
     return res;
 }
 
+const getSingleStory = (id) =>{
+    const res = newsStories.findById(id);
+    return res;
+}
+
 
 module.exports = {
-    getNewStories
+    getNewStories, getSingleStory
 };
