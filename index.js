@@ -10,8 +10,10 @@ const port = 3000
 const { getMonthlyData, getMonthlySigleData } = require('./APi/MonthlyPicks/monthlyController');
 const { getNewStories, getSingleStory } = require('./APi/NewsStories/newsStoriesController');
 const { getSpotlightData, getSpotlightSingleData } = require('./APi/Spotlight/spotlightController');
-const { getCategoryData } = require('./APi/Category/categoryController');
+const { getCategoryData, getSingleCategoryData } = require('./APi/Category/categoryController');
 const { getArticleData, getArticleSingleData } = require('./APi/article/articleController');
+const { getEshopData, getEshopSingleData } = require('./APi/EshopProducts/eshopController');
+const { getBookData } = require('./APi/books/booksController');
 
 
 
@@ -107,16 +109,41 @@ app.get("/api/v1/spotlight/:id", async(req, res)=>{
 })
 
 
-// Category Ap's
+// Category Api's
 
 app.get("/api/v1/category", async(req,res)=>{
     const result = await getCategoryData();
     res.send(result);
 })
 
+app.get("/api/v1/category/:id", async(req, res)=>{
+    const id = req.params.id
+    const result = await getSingleCategoryData(id) 
+    res.send(result)
+})
 
 
+// eshop product api's 
 
+app.get("/api/v1/eshop/:id", async(req, res)=>{
+    const id = req.params.id
+    const result = await getEshopData(id)
+    res.send(result)
+})
+
+app.get("/api/v1/eshop/data/:id", async(req, res)=>{
+    const id = req.params.id 
+    const result = await getEshopSingleData(id)
+    res.send(result)
+})
+
+
+// book collection api's 
+app.get("/api/v1/books/:id", async (req, res)=>{
+    const id = req.params.id
+    const result = await getBookData(id)
+    res.send(result)
+})
 
 
 //*********   All APi's Ends here   ************************//
