@@ -5,7 +5,11 @@ const getSpotlightData = () =>{
     return res;
 }
 
+const getSpotlightSingleData = (id) =>{
+    const res = spotLight.findById(id)
+    return res;
+}
 
 module.exports = {
-    getSpotlightData
+    getSpotlightData, getSpotlightSingleData
 }
