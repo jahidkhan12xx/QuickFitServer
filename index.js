@@ -15,6 +15,7 @@ const { getArticleData, getArticleSingleData } = require('./APi/article/articleC
 const { getEshopData, getEshopSingleData } = require('./APi/EshopProducts/eshopController');
 const { getBookData } = require('./APi/books/booksController');
 const { getCartData, postCartData } = require('./APi/cart/cartController');
+const { getTipsData } = require('./APi/tips/tipsController');
 
 
 
@@ -153,6 +154,12 @@ app.post("/api/v1/cart", async(req, res)=>{
     const result = await postCartData(product) ;
     res.send(result)
 })
+//tips api
+app.get("/api/v1/tips",async(req,res)=>{
+    const result = await getTipsData()
+    res.send(result)
+})
+
 
 app.get("/api/v1/cart/:id", async (req, res)=>{
     const id = req.params.id
