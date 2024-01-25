@@ -14,6 +14,7 @@ const { getCategoryData, getSingleCategoryData } = require('./APi/Category/categ
 const { getArticleData, getArticleSingleData } = require('./APi/article/articleController');
 const { getEshopData, getEshopSingleData } = require('./APi/EshopProducts/eshopController');
 const { getBookData } = require('./APi/books/booksController');
+const { getTipsData } = require('./APi/tips/tipsController');
 
 
 
@@ -145,6 +146,12 @@ app.get("/api/v1/books/:id", async (req, res)=>{
     res.send(result)
 })
 
+
+//tips api
+app.get("/api/v1/tips",async(req,res)=>{
+    const result = await getTipsData()
+    res.send(result)
+})
 
 
 
