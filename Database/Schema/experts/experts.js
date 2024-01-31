@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const teamsSchema = new mongoose.Schema({
+const expertsSchema = new mongoose.Schema({
     category : String,
     name:String,
     jobTitle:String,
@@ -9,4 +9,4 @@ const teamsSchema = new mongoose.Schema({
     social_media:Object
 })
 
-module.exports = mongoose.model("teams",teamsSchema)
+module.exports = mongoose.model("experts",expertsSchema)
