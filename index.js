@@ -16,9 +16,10 @@ const { getEshopData, getEshopSingleData } = require('./APi/EshopProducts/eshopC
 const { getBookData } = require('./APi/books/booksController');
 const { getCartData, postCartData } = require('./APi/cart/cartController');
 const { getTipsData } = require('./APi/tips/tipsController');
-
 const SSLCommerzPayment = require('sslcommerz-lts');
 const { postOrderData, updateOrderData, deleteOrderData } = require('./APi/orders/orders');
+const { getTeamsData } = require('./APi/teams/teamsController');
+const { getExpertsData } = require('./APi/experts/expertsController');
 
 
 
@@ -32,6 +33,13 @@ app.use(express.json())
 
 
 //********* Middleware's Ends Here *********//
+
+
+
+
+
+
+
 
 
 
@@ -149,6 +157,9 @@ app.post("/api/v1/order/failed/:tranId", async (req, res) => {
 
 
 
+
+
+
 //article api's
 
 app.get("/api/v1/articles", async (req, res) => {
@@ -262,6 +273,31 @@ app.get("/api/v1/cart/:id", async (req, res) => {
 })
 
 //*********   All APi's Ends here   ************************//
+
+
+
+//*********   Teams APi's start here   ************************//
+
+app.get("/api/v1/teams", async (req, res) => {
+    const result = await getTeamsData()
+    res.send(result)
+})
+
+//*********   Teams APi's Ends here   ************************//
+
+//*********   Experts APi's start here   ************************//
+
+app.get("/api/v1/experts", async (req, res) => {
+    const result = await getExpertsData()
+    res.send(result)
+})
+
+//*********   Experts APi's Ends here   ************************//
+
+
+
+
+
 
 
 
