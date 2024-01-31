@@ -12,7 +12,7 @@ const { getNewStories, getSingleStory } = require('./APi/NewsStories/newsStories
 const { getSpotlightData, getSpotlightSingleData } = require('./APi/Spotlight/spotlightController');
 const { getCategoryData, getSingleCategoryData } = require('./APi/Category/categoryController');
 const { getArticleData, getArticleSingleData } = require('./APi/article/articleController');
-const { getEshopData, getEshopSingleData } = require('./APi/EshopProducts/eshopController');
+const { getEshopData, getEshopSingleData, getEshopAllData } = require('./APi/EshopProducts/eshopController');
 const { getBookData } = require('./APi/books/booksController');
 const { getCartData, postCartData } = require('./APi/cart/cartController');
 const { getTipsData } = require('./APi/tips/tipsController');
@@ -139,6 +139,11 @@ app.get("/api/v1/eshop/data/:id", async(req, res)=>{
     res.send(result)
 })
 
+app.get("/api/v1/eshop", async(req, res)=>{
+    const result = await getEshopAllData()
+    res.send(result)
+})
+
 
 // book collection api's 
 app.get("/api/v1/books/:id", async (req, res)=>{
@@ -149,11 +154,20 @@ app.get("/api/v1/books/:id", async (req, res)=>{
 
 
 // cart api's
+
+app.get("/api/v1/cart/:id", async (req, res)=>{
+    const id = req.params.id
+    const result = await getCartData(id)
+    res.send(result)
+})
+
 app.post("/api/v1/cart", async(req, res)=>{
     const product = req.body 
     const result = await postCartData(product) ;
     res.send(result)
 })
+
+
 //tips api
 app.get("/api/v1/tips",async(req,res)=>{
     const result = await getTipsData()
@@ -161,11 +175,7 @@ app.get("/api/v1/tips",async(req,res)=>{
 })
 
 
-app.get("/api/v1/cart/:id", async (req, res)=>{
-    const id = req.params.id
-    const result = await getCartData(id)
-    res.send(result)
-})
+
 
 //*********   All APi's Ends here   ************************//
 
