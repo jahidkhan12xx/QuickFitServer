@@ -16,10 +16,12 @@ const { getEshopData, getEshopSingleData } = require('./APi/EshopProducts/eshopC
 const { getBookData } = require('./APi/books/booksController');
 const { getCartData, postCartData } = require('./APi/cart/cartController');
 const { getTipsData } = require('./APi/tips/tipsController');
-const SSLCommerzPayment = require('sslcommerz-lts');
-const { postOrderData, updateOrderData, deleteOrderData } = require('./APi/orders/orders');
 const { getTeamsData } = require('./APi/teams/teamsController');
 const { getExpertsData } = require('./APi/experts/expertsController');
+
+const SSLCommerzPayment = require('sslcommerz-lts');
+const { postOrderData, updateOrderData, deleteOrderData } = require('./APi/orders/orders');
+const { postOrderData2, updateOrderData2, deleteOrderData2 } = require('./APi/orders/orders2');
 
 
 
@@ -70,7 +72,7 @@ const is_live = false //true for live, false for sandbox
 //************   All APi's Starts   ************************//
 
 // Payment Method APi's 
-
+// E-shop payment
 app.post("/api/v1/order", async (req, res) => {
     const id = req.body.productId
     const product = await getEshopSingleData(id)
@@ -154,7 +156,87 @@ app.post("/api/v1/order/failed/:tranId", async (req, res) => {
     }
 })
 
+// diet-plan payment
+app.post("/api/v1/order2", async (req, res) => {
+    const price = req.body.productId
+    //const product = await getEshopSingleData(id)
+    const productPrice = parseInt(price)
+    const tran_id = Date.now()
+    //console.log(productPrice);
 
+    const data = {
+        total_amount: productPrice,
+        currency: 'BDT',
+        tran_id: tran_id, // use unique tran_id for each api call
+        success_url: `http://localhost:3001/api/v1/order2/success/${tran_id}`,
+        fail_url: `http://localhost:3001/api/v1/order2/failed/${tran_id}`,
+        cancel_url: 'http://localhost:3030/cancel',
+        ipn_url: 'http://localhost:3030/ipn',
+        shipping_method: 'Courier',
+        product_name: "product?.title",
+        product_category: "product?.category",
+        product_profile: 'general',
+        cus_name: req.body?.name,
+        cus_email: req.body?.email,
+        cus_add1: 'Dhaka',
+        cus_add2: 'Dhaka',
+        cus_city: 'Dhaka',
+        cus_state: 'Dhaka',
+        cus_postcode: '1000',
+        cus_country: 'Bangladesh',
+        cus_phone: req.body?.phone,
+        cus_fax: '01711111111',
+        ship_name: 'Customer Name',
+        ship_add1: req.body?.address,
+        ship_add2: 'Dhaka',
+        ship_city: 'Dhaka',
+        ship_state: 'Dhaka',
+        ship_postcode: 1000,
+        ship_country: 'Bangladesh',
+    };
+    console.log(data);
+    const sslcz = new SSLCommerzPayment(store_id, store_passwd, is_live)
+    sslcz.init(data).then(apiResponse => {
+        // Redirect the user to payment gateway
+        let GatewayPageURL = apiResponse.GatewayPageURL
+        res.send({ url: GatewayPageURL })
+
+        const finalOrder = {
+            ProductID: req.body.productId,
+            email: req.body.email,
+            phone: req.body.phone,
+            paidStatus: false,
+            tranjectionId: tran_id,
+        }
+        const result = postOrderData2(finalOrder)
+
+        console.log('Redirecting to: ', GatewayPageURL)
+    });
+
+});
+
+app.post("/api/v1/order2/success/:tranId2", async (req, res) => {
+    const result = await updateOrderData2(req.params.tranId2)
+    console.log(result);
+    if (result.paidStatus) {
+        res.redirect(
+            `http://localhost:3000/payment/success/${req.params.tranId2}`
+        )
+    }
+
+})
+
+
+app.post("/api/v1/order2/failed/:tranId2", async (req, res) => {
+
+    const result = await deleteOrderData2(req.params.tranId2)
+    console.log(result);
+    if (result.email) {
+        res.redirect(
+            `http://localhost:3000/payment/error/${req.params.tranId2}`
+        )
+    }
+})
 
 
 
