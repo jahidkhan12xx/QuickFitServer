@@ -7,6 +7,7 @@ const port = 3001
 
 
 
+
 const { getMonthlyData, getMonthlySigleData } = require('./APi/MonthlyPicks/monthlyController');
 const { getNewStories, getSingleStory } = require('./APi/NewsStories/newsStoriesController');
 const { getSpotlightData, getSpotlightSingleData } = require('./APi/Spotlight/spotlightController');
@@ -16,12 +17,18 @@ const { getEshopData, getEshopSingleData } = require('./APi/EshopProducts/eshopC
 const { getBookData, getSingleBookData } = require('./APi/books/booksController');
 const { getCartData, postCartData } = require('./APi/cart/cartController');
 const { getTipsData } = require('./APi/tips/tipsController');
+
+const { addFavourites, getFavourites, deleteFavourites } = require('./APi/Favourite/favouriteController');
+const { updateLikes } = require('./APi/userInteraction/userInteractionController');
+const { addComment, getComment } = require('./APi/Comment/commentController');
+
 const { getTeamsData } = require('./APi/teams/teamsController');
 const { getExpertsData } = require('./APi/experts/expertsController');
 
 const SSLCommerzPayment = require('sslcommerz-lts');
 const { postOrderData, updateOrderData, deleteOrderData } = require('./APi/orders/orders');
 const { postOrderData3, updateOrderData3, deleteOrderData3 } = require('./APi/orders/orders3');
+
 
 
 
@@ -439,6 +446,65 @@ app.get("/api/v1/tips", async (req, res) => {
 app.get("/api/v1/cart/:id", async (req, res) => {
     const id = req.params.id
     const result = await getCartData(id)
+    res.send(result)
+})
+
+
+
+//Favourite api's
+
+app.post("/api/v1/favourites", async(req,res)=>{
+    const data = req.body;
+    const email = data.email;
+
+    // console.log(data,email);
+    const result = await addFavourites(data,email);
+    console.log(result);
+    res.send({insertedId:result?._id});
+})
+
+app.get("/api/v1/favourites/:email", async(req,res)=>{
+    const userEmail = req.params.email;
+    const result = await getFavourites(userEmail);
+    res.send(result);
+})
+
+
+app.delete("/api/v1/favourites/:id", async(req,res)=>{
+    const favId = req.params.id;
+    const result = await deleteFavourites(favId);
+    res.send(result);
+})
+
+
+
+//UserInteraction
+
+
+
+
+app.patch("/api/v1/likes/:email", async(req,res)=>{
+    const email =req.params.email;
+    console.log(email);
+    const result = await updateLikes(email);
+    console.log(result);
+    res.send(result);
+})
+
+
+
+//Comment 
+
+
+app.post("/api/v1/comments",async(req,res)=>{
+    const comment = req.body;
+    const result = await addComment(comment);
+    res.send(result);
+})
+
+app.get("/api/v1/comments/:blogId", async(req,res)=>{
+    const blogId = req.params.blogId;
+    const result = await getComment(blogId);
     res.send(result)
 })
 
