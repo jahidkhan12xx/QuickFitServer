@@ -5,7 +5,8 @@ const cors = require("cors")
 const mongoose = require("mongoose");
 
 
-const port = 4000
+const port = 3001
+
 
 
 
