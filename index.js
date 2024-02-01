@@ -27,6 +27,7 @@ const { getExpertsData } = require('./APi/experts/expertsController');
 
 const SSLCommerzPayment = require('sslcommerz-lts');
 const { postOrderData, updateOrderData, deleteOrderData } = require('./APi/orders/orders');
+const { postOrderData3, updateOrderData3, deleteOrderData3 } = require('./APi/orders/orders3');
 
 
 
