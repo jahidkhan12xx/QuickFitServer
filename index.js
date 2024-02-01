@@ -13,9 +13,9 @@ const { getNewStories, getSingleStory } = require('./APi/NewsStories/newsStories
 const { getSpotlightData, getSpotlightSingleData } = require('./APi/Spotlight/spotlightController');
 const { getCategoryData, getSingleCategoryData } = require('./APi/Category/categoryController');
 const { getArticleData, getArticleSingleData } = require('./APi/article/articleController');
-const { getEshopData, getEshopSingleData } = require('./APi/EshopProducts/eshopController');
+const { getEshopData, getEshopSingleData, getEshopAllData } = require('./APi/EshopProducts/eshopController');
+const { getCartData, postCartData, getCartAllData } = require('./APi/cart/cartController');
 const { getBookData, getSingleBookData } = require('./APi/books/booksController');
-const { getCartData, postCartData } = require('./APi/cart/cartController');
 const { getTipsData } = require('./APi/tips/tipsController');
 
 const { addFavourites, getFavourites, deleteFavourites } = require('./APi/Favourite/favouriteController');
@@ -78,15 +78,18 @@ const is_live = false //true for live, false for sandbox
 
 //************   All APi's Starts   ************************//
 
-// Payment Method APi's 
+
+// ---------Payment Method APi's starts ------------
+
 // E-shop payment
 app.post("/api/v1/order", async (req, res) => {
     const id = req.body.productId
+    console.log(id)
     const product = await getEshopSingleData(id)
-    const productPrice = parseInt(product.price)
+    const productPrice = parseInt(product?.price)
     console.log(productPrice);
     const tran_id = Date.now()
-
+    console.log(tran_id)
     const data = {
         total_amount: productPrice,
         currency: 'BDT',
@@ -139,7 +142,7 @@ app.post("/api/v1/order", async (req, res) => {
 
 });
 
-
+// success payment api -----
 app.post("/api/v1/order/success/:tranId", async (req, res) => {
     const result = await updateOrderData(req.params.tranId)
     console.log(result);
@@ -151,7 +154,7 @@ app.post("/api/v1/order/success/:tranId", async (req, res) => {
 
 })
 
-
+// failed payment api -----
 app.post("/api/v1/order/failed/:tranId", async (req, res) => {
 
     const result = await deleteOrderData(req.params.tranId)
@@ -162,6 +165,7 @@ app.post("/api/v1/order/failed/:tranId", async (req, res) => {
         )
     }
 })
+// ---------Payment Method APi's END ------------
 
 // diet-plan payment
 app.post("/api/v1/order2", async (req, res) => {
@@ -337,8 +341,7 @@ app.post("/api/v1/order3/failed/:tranId3", async (req, res) => {
 
 
 
-//article api's
-
+//article api's starts--------
 app.get("/api/v1/articles", async (req, res) => {
     const result = await getArticleData();
     res.send(result)
@@ -349,11 +352,11 @@ app.get("/api/v1/articles/:id", async (req, res) => {
     const result = await getArticleSingleData(id)
     res.send(result)
 })
+//article api's ends--------
 
 
-//Monthly Picks Api's
 
-
+//Monthly Picks Api's starts------
 app.get("/api/v1/monthlyPicks", async (req, res) => {
     const result = await getMonthlyData();
     res.send(result);
@@ -364,10 +367,11 @@ app.get("/api/v1/monthlyPicks/:id", async (req, res) => {
     const result = await getMonthlySigleData(id)
     res.send(result)
 })
+//Monthly Picks Api's ends------
 
-//News Stories Api's
 
 
+//News Stories Api's starts ------
 app.get("/api/v1/newStories", async (req, res) => {
     const result = await getNewStories();
     res.send(result);
@@ -378,9 +382,12 @@ app.get("/api/v1/newStories/:id", async (req, res) => {
     const result = await getSingleStory(id)
     res.send(result)
 })
+//News Stories Api's ends ------
 
-//Spotlight Api's
 
+
+
+//Spotlight Api's starts------
 app.get("/api/v1/spotlight", async (req, res) => {
     const result = await getSpotlightData();
     res.send(result);
@@ -391,10 +398,11 @@ app.get("/api/v1/spotlight/:id", async (req, res) => {
     const result = await getSpotlightSingleData(id)
     res.send(result)
 })
+//Spotlight Api's ends------
 
 
-// Category Api's
 
+// Category Api's starts--------
 app.get("/api/v1/category", async (req, res) => {
     const result = await getCategoryData();
     res.send(result);
@@ -405,10 +413,11 @@ app.get("/api/v1/category/:id", async (req, res) => {
     const result = await getSingleCategoryData(id)
     res.send(result)
 })
+// Category Api's ends--------
 
 
-// eshop product api's 
 
+// eshop product api's starts--------
 app.get("/api/v1/eshop/:id", async (req, res) => {
     const id = req.params.id
     const result = await getEshopData(id)
@@ -421,33 +430,58 @@ app.get("/api/v1/eshop/data/:id", async (req, res) => {
     res.send(result)
 })
 
+app.get("/api/v1/eshop", async(req, res)=>{
+    const result = await getEshopAllData()
+    res.send(result)
+})
+// eshop product api's ends--------
 
-// book collection api's 
+
+
+
+// book collection api's starts------
 app.get("/api/v1/books/:id", async (req, res) => {
     const id = req.params.id
     const result = await getBookData(id)
     res.send(result)
 })
+// book collection api's ends------
 
 
-// cart api's
-app.post("/api/v1/cart", async (req, res) => {
-    const product = req.body
-    const result = await postCartData(product);
-    res.send(result)
-})
-//tips api
-app.get("/api/v1/tips", async (req, res) => {
-    const result = await getTipsData()
-    res.send(result)
-})
 
 
-app.get("/api/v1/cart/:id", async (req, res) => {
+// cart api's starts--------
+app.get("/api/v1/cart/:id", async (req, res)=>{
     const id = req.params.id
     const result = await getCartData(id)
     res.send(result)
 })
+
+app.get("/api/v1/cart", async (req, res)=>{
+    const id = req.params.id
+    const result = await getCartAllData()
+    res.send(result)
+})
+
+app.post("/api/v1/cart", async(req, res)=>{
+    const sendProduct = req.body 
+    const result = await postCartData(sendProduct) ;
+    res.send(result)
+})
+// cart api's ends--------
+
+
+
+
+//tips api starts-------
+app.get("/api/v1/tips", async (req, res) => {
+    const result = await getTipsData()
+    res.send(result)
+})
+//tips api ends-------
+
+
+
 
 
 
