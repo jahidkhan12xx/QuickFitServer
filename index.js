@@ -18,18 +18,18 @@ const { getEshopData, getEshopSingleData } = require('./APi/EshopProducts/eshopC
 const { getBookData } = require('./APi/books/booksController');
 const { getCartData, postCartData } = require('./APi/cart/cartController');
 const { getTipsData } = require('./APi/tips/tipsController');
-<<<<<<< HEAD
+
 const { addFavourites, getFavourites, deleteFavourites } = require('./APi/Favourite/favouriteController');
 const { updateLikes } = require('./APi/userInteraction/userInteractionController');
 const { addComment, getComment } = require('./APi/Comment/commentController');
-=======
+
 const { getTeamsData } = require('./APi/teams/teamsController');
 const { getExpertsData } = require('./APi/experts/expertsController');
 
 const SSLCommerzPayment = require('sslcommerz-lts');
 const { postOrderData, updateOrderData, deleteOrderData } = require('./APi/orders/orders');
 const { postOrderData3, updateOrderData3, deleteOrderData3 } = require('./APi/orders/orders3');
->>>>>>> ada10538c1932830247a0bbbd8165af2c7b9970b
+
 
 
 
