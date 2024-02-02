@@ -94,8 +94,8 @@ app.post("/api/v1/order", async (req, res) => {
         total_amount: productPrice,
         currency: 'BDT',
         tran_id: tran_id, // use unique tran_id for each api call
-        success_url: `https://quick-fit-client.vercel.app/api/v1/order/success/${tran_id}`,
-        fail_url: `https://quick-fit-client.vercel.app/api/v1/order/failed/${tran_id}`,
+        success_url: `https://quick-fit-server.vercel.app/api/v1/order/success/${tran_id}`,
+        fail_url: `https://quick-fit-server.vercel.app/api/v1/order/failed/${tran_id}`,
         cancel_url: 'http://localhost:3030/cancel',
         ipn_url: 'http://localhost:3030/ipn',
         shipping_method: 'Courier',
@@ -179,8 +179,8 @@ app.post("/api/v1/order2", async (req, res) => {
         total_amount: productPrice,
         currency: 'BDT',
         tran_id: tran_id, // use unique tran_id for each api call
-        success_url: `https://quick-fit-client.vercel.app/api/v1/order2/success/${tran_id}`,
-        fail_url: `https://quick-fit-client.vercel.app/api/v1/order2/failed/${tran_id}`,
+        success_url: `https://quick-fit-server.vercel.app/api/v1/order2/success/${tran_id}`,
+        fail_url: `https://quick-fit-server.vercel.app/api/v1/order2/failed/${tran_id}`,
         cancel_url: 'http://localhost:3030/cancel',
         ipn_url: 'http://localhost:3030/ipn',
         shipping_method: 'Courier',
@@ -267,8 +267,8 @@ app.post("/api/v1/order3", async (req, res) => {
         total_amount: productPrice,
         currency: 'BDT',
         tran_id: tran_id, // use unique tran_id for each api call
-        success_url: `https://quick-fit-client.vercel.app/api/v1/order3/success/${tran_id}`,
-        fail_url: `https://quick-fit-client.vercel.app/api/v1/order3/failed/${tran_id}`,
+        success_url: `https://quick-fit-server.vercel.app/api/v1/order3/success/${tran_id}`,
+        fail_url: `https://quick-fit-server.vercel.app/api/v1/order3/failed/${tran_id}`,
         cancel_url: 'http://localhost:3030/cancel',
         ipn_url: 'http://localhost:3030/ipn',
         shipping_method: 'Courier',
