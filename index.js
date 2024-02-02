@@ -86,8 +86,14 @@ app.post("/api/v1/order", async (req, res) => {
     const id = req.body.productId
     console.log(id)
     const product = await getEshopSingleData(id)
+<<<<<<< HEAD
+    console.log(product);
+    const productPrice = parseInt(product?.price)
+    //console.log(productPrice);
+=======
     const productPrice = parseInt(product?.price)
     console.log(productPrice);
+>>>>>>> f2dd74afba8e090673c0a3dd29ebf6e3fbf60dfd
     const tran_id = Date.now()
     console.log(tran_id)
     const data = {
@@ -120,7 +126,7 @@ app.post("/api/v1/order", async (req, res) => {
         ship_postcode: 1000,
         ship_country: 'Bangladesh',
     };
-    console.log(data);
+    //console.log(data);
     const sslcz = new SSLCommerzPayment(store_id, store_passwd, is_live)
     sslcz.init(data).then(apiResponse => {
         // Redirect the user to payment gateway
@@ -131,7 +137,7 @@ app.post("/api/v1/order", async (req, res) => {
             ProductID: req.body.productId,
             email: req.body.email,
             phone: req.body.phone,
-            title: product.title,
+            title: product?.title,
             paidStatus: false,
             tranjectionId: tran_id,
         }
@@ -145,7 +151,7 @@ app.post("/api/v1/order", async (req, res) => {
 // success payment api -----
 app.post("/api/v1/order/success/:tranId", async (req, res) => {
     const result = await updateOrderData(req.params.tranId)
-    console.log(result);
+    //console.log(result);
     if (result.paidStatus) {
         res.redirect(
             `http://localhost:3000/payment/success/${req.params.tranId}`
@@ -158,7 +164,7 @@ app.post("/api/v1/order/success/:tranId", async (req, res) => {
 app.post("/api/v1/order/failed/:tranId", async (req, res) => {
 
     const result = await deleteOrderData(req.params.tranId)
-    console.log(result);
+    // console.log(result);
     if (result._id) {
         res.redirect(
             `http://localhost:3000/payment/error/${req.params.tranId}`
@@ -205,7 +211,7 @@ app.post("/api/v1/order2", async (req, res) => {
         ship_postcode: 1000,
         ship_country: 'Bangladesh',
     };
-    console.log(data);
+    // console.log(data);
     const sslcz = new SSLCommerzPayment(store_id, store_passwd, is_live)
     sslcz.init(data).then(apiResponse => {
         // Redirect the user to payment gateway
@@ -228,7 +234,7 @@ app.post("/api/v1/order2", async (req, res) => {
 
 app.post("/api/v1/order2/success/:tranId2", async (req, res) => {
     const result = await updateOrderData2(req.params.tranId2)
-    console.log(result);
+    // console.log(result);
     if (result.paidStatus) {
         res.redirect(
             `http://localhost:3000/payment/success/${req.params.tranId2}`
@@ -241,7 +247,7 @@ app.post("/api/v1/order2/success/:tranId2", async (req, res) => {
 app.post("/api/v1/order2/failed/:tranId2", async (req, res) => {
 
     const result = await deleteOrderData2(req.params.tranId2)
-    console.log(result);
+    //console.log(result);
     if (result.email) {
         res.redirect(
             `http://localhost:3000/payment/error/${req.params.tranId2}`
