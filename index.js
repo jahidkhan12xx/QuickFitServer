@@ -120,7 +120,7 @@ app.post("/api/v1/order", async (req, res) => {
         ship_postcode: 1000,
         ship_country: 'Bangladesh',
     };
-    console.log(data);
+    //console.log(data);
     const sslcz = new SSLCommerzPayment(store_id, store_passwd, is_live)
     sslcz.init(data).then(apiResponse => {
         // Redirect the user to payment gateway
@@ -131,7 +131,7 @@ app.post("/api/v1/order", async (req, res) => {
             ProductID: req.body.productId,
             email: req.body.email,
             phone: req.body.phone,
-            title: product.title,
+            title: product?.title,
             paidStatus: false,
             tranjectionId: tran_id,
         }
@@ -145,10 +145,10 @@ app.post("/api/v1/order", async (req, res) => {
 // success payment api -----
 app.post("/api/v1/order/success/:tranId", async (req, res) => {
     const result = await updateOrderData(req.params.tranId)
-    console.log(result);
+    //console.log(result);
     if (result.paidStatus) {
         res.redirect(
-            `http://localhost:3000/payment/success/${req.params.tranId}`
+            `https://quick-fit-client.vercel.app/payment/success/${req.params.tranId}`
         )
     }
 
@@ -158,10 +158,10 @@ app.post("/api/v1/order/success/:tranId", async (req, res) => {
 app.post("/api/v1/order/failed/:tranId", async (req, res) => {
 
     const result = await deleteOrderData(req.params.tranId)
-    console.log(result);
+    // console.log(result);
     if (result._id) {
         res.redirect(
-            `http://localhost:3000/payment/error/${req.params.tranId}`
+            `https://quick-fit-client.vercel.app/payment/error/${req.params.tranId}`
         )
     }
 })
@@ -205,7 +205,7 @@ app.post("/api/v1/order2", async (req, res) => {
         ship_postcode: 1000,
         ship_country: 'Bangladesh',
     };
-    console.log(data);
+    // console.log(data);
     const sslcz = new SSLCommerzPayment(store_id, store_passwd, is_live)
     sslcz.init(data).then(apiResponse => {
         // Redirect the user to payment gateway
@@ -228,10 +228,10 @@ app.post("/api/v1/order2", async (req, res) => {
 
 app.post("/api/v1/order2/success/:tranId2", async (req, res) => {
     const result = await updateOrderData2(req.params.tranId2)
-    console.log(result);
+    // console.log(result);
     if (result.paidStatus) {
         res.redirect(
-            `http://localhost:3000/payment/success/${req.params.tranId2}`
+            `https://quick-fit-client.vercel.app/payment/success/${req.params.tranId2}`
         )
     }
 
@@ -241,10 +241,10 @@ app.post("/api/v1/order2/success/:tranId2", async (req, res) => {
 app.post("/api/v1/order2/failed/:tranId2", async (req, res) => {
 
     const result = await deleteOrderData2(req.params.tranId2)
-    console.log(result);
+    //console.log(result);
     if (result.email) {
         res.redirect(
-            `http://localhost:3000/payment/error/${req.params.tranId2}`
+            `https://quick-fit-client.vercel.app/payment/error/${req.params.tranId2}`
         )
     }
 })
@@ -321,7 +321,7 @@ app.post("/api/v1/order3/success/:tranId3", async (req, res) => {
     console.log(result);
     if (result.paidStatus) {
         res.redirect(
-            `http://localhost:3000/payment/success/${req.params.tranId3}`
+            `https://quick-fit-client.vercel.app/payment/success/${req.params.tranId3}`
         )
     }
 
@@ -334,7 +334,7 @@ app.post("/api/v1/order3/failed/:tranId3", async (req, res) => {
     console.log(result);
     if (result._id) {
         res.redirect(
-            `http://localhost:3000/payment/error/${req.params.tranId3}`
+            `https://quick-fit-client.vercel.app/payment/error/${req.params.tranId3}`
         )
     }
 })
