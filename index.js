@@ -3,7 +3,7 @@ require('dotenv').config()
 const app = express()
 const cors = require("cors")
 const mongoose = require("mongoose");
-const port = 3001
+const port = 4000
 
 
 
@@ -28,6 +28,7 @@ const { getExpertsData } = require('./APi/experts/expertsController');
 const SSLCommerzPayment = require('sslcommerz-lts');
 const { postOrderData, updateOrderData, deleteOrderData } = require('./APi/orders/orders');
 const { postOrderData3, updateOrderData3, deleteOrderData3 } = require('./APi/orders/orders3');
+const { addUser, getAllUser, getSingleUser } = require('./APi/user/userController');
 
 
 
@@ -506,6 +507,26 @@ app.get("/api/v1/comments/:blogId", async(req,res)=>{
     const blogId = req.params.blogId;
     const result = await getComment(blogId);
     res.send(result)
+})
+
+
+//user api's
+
+app.post("/api/v1/users", async(req,res)=>{
+    const data = req.body;
+    console.log(data);
+    const result = await addUser(data);
+    res.send(result);
+})
+
+app.get("/api/v1/users", async(req,res)=>{
+    const result = await getAllUser();
+    res.send(result);
+})
+
+app.get("/api/v1/users/:email", async(req,res)=>{
+    const result = await getSingleUser(req.params.email);
+    res.send(result);
 })
 
 //*********   All APi's Ends here   ************************//
