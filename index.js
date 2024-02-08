@@ -22,6 +22,7 @@ const { getExpertsData } = require('./APi/experts/expertsController');
 const SSLCommerzPayment = require('sslcommerz-lts');
 const { postOrderData, updateOrderData, deleteOrderData } = require('./APi/orders/orders');
 const { postOrderData3, updateOrderData3, deleteOrderData3 } = require('./APi/orders/orders3');
+const { getChallengesData } = require('./APi/challenges/challengesController');
 
 
 
@@ -432,6 +433,12 @@ app.post("/api/v1/cart", async (req, res) => {
 //tips api
 app.get("/api/v1/tips", async (req, res) => {
     const result = await getTipsData()
+    res.send(result)
+})
+
+//free challenges api
+app.get("/api/v1/challenges", async (req, res) => {
+    const result = await getChallengesData()
     res.send(result)
 })
 
