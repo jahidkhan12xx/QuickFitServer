@@ -14,7 +14,7 @@ const { getSpotlightData, getSpotlightSingleData } = require('./APi/Spotlight/sp
 const { getCategoryData, getSingleCategoryData } = require('./APi/Category/categoryController');
 const { getArticleData, getArticleSingleData } = require('./APi/article/articleController');
 const { getEshopData, getEshopSingleData, getEshopAllData } = require('./APi/EshopProducts/eshopController');
-const { getCartData, postCartData, getCartAllData } = require('./APi/cart/cartController');
+const { getCartData, postCartData, getCartAllData, deleteCartData } = require('./APi/cart/cartController');
 const { getBookData, getSingleBookData } = require('./APi/books/booksController');
 const { getTipsData } = require('./APi/tips/tipsController');
 
@@ -27,6 +27,7 @@ const { getExpertsData } = require('./APi/experts/expertsController');
 
 const SSLCommerzPayment = require('sslcommerz-lts');
 const { postOrderData, updateOrderData, deleteOrderData } = require('./APi/orders/orders');
+const { postOrderData2, updateOrderData2, deleteOrderData2 } = require('./APi/orders/orders2');
 const { postOrderData3, updateOrderData3, deleteOrderData3 } = require('./APi/orders/orders3');
 
 
@@ -167,13 +168,14 @@ app.post("/api/v1/order/failed/:tranId", async (req, res) => {
 })
 // ---------Payment Method APi's END ------------
 
+
+
 // diet-plan payment
 app.post("/api/v1/order2", async (req, res) => {
     const price = req.body.productId
-    //const product = await getEshopSingleData(id)
     const productPrice = parseInt(price)
     const tran_id = Date.now()
-    //console.log(productPrice);
+    // console.log(price);
 
     const data = {
         total_amount: productPrice,
@@ -205,7 +207,7 @@ app.post("/api/v1/order2", async (req, res) => {
         ship_postcode: 1000,
         ship_country: 'Bangladesh',
     };
-    // console.log(data);
+    console.log(data);
     const sslcz = new SSLCommerzPayment(store_id, store_passwd, is_live)
     sslcz.init(data).then(apiResponse => {
         // Redirect the user to payment gateway
@@ -251,11 +253,11 @@ app.post("/api/v1/order2/failed/:tranId2", async (req, res) => {
 
 
 
- //************   Payment Gateway for books  ************************//
+//************   Payment Gateway for books  ************************//
 
 app.post("/api/v1/order3", async (req, res) => {
     const id = req.body.productId
-    const bookPrice=req.body.price
+    const bookPrice = req.body.price
     console.log(id)
     const product = await getSingleBookData(id)
     const productPrice = parseInt(bookPrice)
@@ -430,7 +432,7 @@ app.get("/api/v1/eshop/data/:id", async (req, res) => {
     res.send(result)
 })
 
-app.get("/api/v1/eshop", async(req, res)=>{
+app.get("/api/v1/eshop", async (req, res) => {
     const result = await getEshopAllData()
     res.send(result)
 })
@@ -451,23 +453,30 @@ app.get("/api/v1/books/:id", async (req, res) => {
 
 
 // cart api's starts--------
-app.get("/api/v1/cart/:id", async (req, res)=>{
+app.get("/api/v1/cart/:id", async (req, res) => {
     const id = req.params.id
     const result = await getCartData(id)
     res.send(result)
 })
 
-app.get("/api/v1/cart", async (req, res)=>{
+app.get("/api/v1/cart", async (req, res) => {
     const id = req.params.id
     const result = await getCartAllData()
     res.send(result)
 })
 
-app.post("/api/v1/cart", async(req, res)=>{
-    const sendProduct = req.body 
-    const result = await postCartData(sendProduct) ;
+app.post("/api/v1/cart", async (req, res) => {
+    const sendProduct = req.body
+    const result = await postCartData(sendProduct);
     res.send(result)
 })
+
+app.delete("/api/v1/cart/:id", async(req, res)=>{
+    const id = req.params.id ;
+    const result = await deleteCartData(id)
+    res.send(result)
+})
+
 // cart api's ends--------
 
 
@@ -487,24 +496,24 @@ app.get("/api/v1/tips", async (req, res) => {
 
 //Favourite api's
 
-app.post("/api/v1/favourites", async(req,res)=>{
+app.post("/api/v1/favourites", async (req, res) => {
     const data = req.body;
     const email = data.email;
 
     // console.log(data,email);
-    const result = await addFavourites(data,email);
+    const result = await addFavourites(data, email);
     console.log(result);
-    res.send({insertedId:result?._id});
+    res.send({ insertedId: result?._id });
 })
 
-app.get("/api/v1/favourites/:email", async(req,res)=>{
+app.get("/api/v1/favourites/:email", async (req, res) => {
     const userEmail = req.params.email;
     const result = await getFavourites(userEmail);
     res.send(result);
 })
 
 
-app.delete("/api/v1/favourites/:id", async(req,res)=>{
+app.delete("/api/v1/favourites/:id", async (req, res) => {
     const favId = req.params.id;
     const result = await deleteFavourites(favId);
     res.send(result);
@@ -517,8 +526,8 @@ app.delete("/api/v1/favourites/:id", async(req,res)=>{
 
 
 
-app.patch("/api/v1/likes/:email", async(req,res)=>{
-    const email =req.params.email;
+app.patch("/api/v1/likes/:email", async (req, res) => {
+    const email = req.params.email;
     console.log(email);
     const result = await updateLikes(email);
     console.log(result);
@@ -530,13 +539,13 @@ app.patch("/api/v1/likes/:email", async(req,res)=>{
 //Comment 
 
 
-app.post("/api/v1/comments",async(req,res)=>{
+app.post("/api/v1/comments", async (req, res) => {
     const comment = req.body;
     const result = await addComment(comment);
     res.send(result);
 })
 
-app.get("/api/v1/comments/:blogId", async(req,res)=>{
+app.get("/api/v1/comments/:blogId", async (req, res) => {
     const blogId = req.params.blogId;
     const result = await getComment(blogId);
     res.send(result)
