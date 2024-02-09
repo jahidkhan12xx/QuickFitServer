@@ -5,6 +5,11 @@ const res = books.findOne({category:id})
 return res
 }
 
+const getSingleBookData = (id) =>{
+    const res = books.findById(id)
+return res
+}
+
 module.exports= {
-    getBookData
+    getBookData , getSingleBookData
 }
