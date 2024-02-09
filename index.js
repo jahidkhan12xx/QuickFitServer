@@ -22,7 +22,7 @@ const SSLCommerzPayment = require('sslcommerz-lts');
 const { postOrderData, updateOrderData, deleteOrderData } = require('./APi/orders/orders');
 
 
-const { forumPost, forumPostGet, forumSinglePostGet, forumPostComment } = require('./APi/forum/forumController');
+const { forumPost, forumPostGet, forumSinglePostGet, forumPostComment, forumGetNewestPost } = require('./APi/forum/forumController');
 
 
 
@@ -142,7 +142,7 @@ app.post("/api/v1/order/success/:tranId", async (req, res) => {
 app.post("/api/v1/order/failed/:tranId", async (req, res) => {
 
     const result = await deleteOrderData(req.params.tranId)
-    console.log(result);
+    
     if (result._id) {
         res.redirect(
             `http://localhost:3000/payment/error/${req.params.tranId}`
@@ -293,7 +293,15 @@ app.post("/api/v1/forum/comment/:id", async(req, res) => {
 
     const data = req.body;
     const result = await forumPostComment(data)
-    console.log("hey")
+    
+    res.send(result)
+
+})
+
+app.get("/api/v1/forum/find/newestpost", async(req, res) => {
+
+    const result = await forumGetNewestPost()
+
     res.send(result)
 
 })

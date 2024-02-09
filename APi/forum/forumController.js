@@ -13,25 +13,20 @@ const forumPostGet = (category) => {
 const forumSinglePostGet = (id) => {
     const res = forumCollection.findById(id);
     return res
-    console.log("it is working")
+   
 }
 
 const forumPostComment = async (data) => {
     const { comment, userEmail, postId } = data;
   
     try {
-      // Use await to execute the findById query and get the document
       const post = await forumCollection.findById(postId);
-  
       if (!post) {
-        // Handle the case where the post with the given ID is not found
+       
         throw new Error("Post not found");
-      }
+      } 
+    post.comments.push({ text: comment, userEmail });
   
-      // Push the new comment to the comments array
-      post.comments.push({ text: comment, userEmail });
-  
-      // Save the updated document
       await post.save();
   
       return post;
@@ -39,8 +34,24 @@ const forumPostComment = async (data) => {
       console.error('Error updating comment:', error);
       throw error;
     }
+  }
+
+  const forumGetNewestPost = async () => {
+    try {
+      const posts = await forumCollection.find({})
+        .sort({ date: -1 })
+        .exec();
+  
+     
+      return posts;
+    } catch (error) {
+      console.error('Error fetching newest posts:', error);
+      throw error;
+    }
   };
+  
+
 
 module.exports = {
-    forumPost, forumPostGet, forumSinglePostGet, forumPostComment
+    forumPost, forumPostGet, forumSinglePostGet, forumPostComment, forumGetNewestPost
 }
