@@ -32,6 +32,9 @@ const { postTrainerData } = require('./APi/Trainer/teainerHire');
 
 
 
+const { forumPost, forumPostGet, forumSinglePostGet, forumPostComment, forumGetNewestPost } = require('./APi/forum/forumController');
+
+
 
 
 //********* Middleware's Starts Heree *********//
@@ -279,6 +282,37 @@ app.get("/api/v1/cart/:id", async (req, res) => {
     res.send(result)
 })
 
+// Forum Apis
+
+app.post("/api/v1/forum", async(req, res) => {
+    const data = req.body;
+    const result = await forumPost(data)
+    res.send(result)
+
+})
+
+app.get("/api/v1/forum/:catgory", async(req, res) => {
+    const category = req.params.catgory;
+    const result =  await forumPostGet(category);
+    res.send(result)
+})
+
+app.get("/api/v1/forum/single/:id", async(req, res) => {
+    const id = req.params.id;
+    const result = await forumSinglePostGet(id);
+res.send(result)
+})
+   
+
+
+//Forum Ends here
+
+
+app.get("/api/v1/cart", async (req, res) => {
+    const id = req.params.id
+    const result = await getCartAllData()
+    res.send(result)
+})
 
 
 // cart api's
@@ -298,6 +332,43 @@ app.get("/api/v1/cart/:id", async (req, res) => {
     const id = req.params.id
     const result = await getCartData(id)
     res.send(result)
+})
+
+
+app.post("/api/v1/forum/comment/:id", async(req, res) => {
+
+
+    const data = req.body;
+    const result = await forumPostComment(data)
+    
+    res.send(result)
+
+})
+
+app.get("/api/v1/forum/find/newestpost", async(req, res) => {
+
+    const result = await forumGetNewestPost()
+
+    res.send(result)
+})
+
+//user api's
+
+app.post("/api/v1/users", async(req,res)=>{
+    const data = req.body;
+    console.log(data);
+    const result = await addUser(data);
+    res.send(result);
+})
+
+app.get("/api/v1/users", async(req,res)=>{
+    const result = await getAllUser();
+    res.send(result);
+})
+
+app.get("/api/v1/users/:email", async(req,res)=>{
+    const result = await getSingleUser(req.params.email);
+    res.send(result);
 })
 
 //*********   All APi's Ends here   ************************//
