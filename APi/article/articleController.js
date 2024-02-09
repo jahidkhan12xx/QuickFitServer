@@ -8,6 +8,7 @@ const getArticleData = () =>{
 
 const getArticleSingleData = (id) =>{
     const res =  articleCollection.findById(id);
+   
     return res;
 }
 
