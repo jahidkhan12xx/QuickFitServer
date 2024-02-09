@@ -24,6 +24,8 @@ const { addComment, getComment } = require('./APi/Comment/commentController');
 
 const { getTeamsData } = require('./APi/teams/teamsController');
 const { getExpertsData } = require('./APi/experts/expertsController');
+const { getServicesData } = require('./APi/services/services');
+const { postTrainerData } = require('./APi/Trainer/teainerHire');
 
 const SSLCommerzPayment = require('sslcommerz-lts');
 const { postOrderData, updateOrderData, deleteOrderData } = require('./APi/orders/orders');
@@ -595,8 +597,26 @@ app.get("/api/v1/experts", async (req, res) => {
 //*********   Experts APi's Ends here   ************************//
 
 
-
-
+//*********   Services api's start here   ************************//
+app.get("/api/v1/services", async (req, res) => {
+    const result = await getServicesData()
+    res.send(result)
+ })
+ //*********   Services api's ends here   ************************//
+ 
+ 
+ 
+ 
+ 
+ 
+ //*********   Trainer api's ends here   ************************//
+ app.post("/api/v1/trainer", async (req, res) => {
+    const trainer = req.body
+    const result = await postTrainerData(trainer);
+    res.send(result)
+ })
+ //*********   Trainer api's ends here   ************************//
+ 
 
 
 
