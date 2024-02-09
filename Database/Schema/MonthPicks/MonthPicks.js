@@ -4,8 +4,11 @@ const mongoose = require("mongoose");
 const monthPickSchema = new mongoose.Schema({
     title:String,
     description:String,
-    image:String,
-    date:String
+    img:String,
+    date:String,
+    author:String,
+    category:String,
+    paragraph:[String]
 })
 
 

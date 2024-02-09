@@ -5,7 +5,9 @@ const newsStoriesCollection = new mongoose.Schema({
    date:String,
    description:String,
    img:String,
-   category:String 
+   category:String,
+   author:String,
+   paragraph:[String]
 })
 
 
