@@ -20,6 +20,8 @@ const SSLCommerzPayment = require('sslcommerz-lts');
 const { postOrderData, updateOrderData, deleteOrderData } = require('./APi/orders/orders');
 const { getTeamsData } = require('./APi/teams/teamsController');
 const { getExpertsData } = require('./APi/experts/expertsController');
+const { getServicesData } = require('./APi/services/services');
+const { postTrainerData } = require('./APi/Trainer/teainerHire');
 
 
 
@@ -144,7 +146,6 @@ app.post("/api/v1/order/success/:tranId", async (req, res) => {
 
 
 app.post("/api/v1/order/failed/:tranId", async (req, res) => {
-
     const result = await deleteOrderData(req.params.tranId)
     console.log(result);
     if (result._id) {
@@ -296,6 +297,22 @@ app.get("/api/v1/experts", async (req, res) => {
 
 
 
+//*********   Services api's start here   ************************//
+app.get("/api/v1/services", async (req, res) => {
+    const result = await getServicesData()
+    res.send(result)
+})
+//*********   Services api's ends here   ************************//
+
+
+
+//*********   Trainer api's ends here   ************************//
+app.post("/api/v1/trainer", async (req, res) => {
+    const trainer = req.body
+    const result = await postTrainerData(trainer);
+    res.send(result)
+})
+//*********   Trainer api's ends here   ************************//
 
 
 
@@ -314,3 +331,5 @@ app.listen(port, () => {
 
 
 //*********   Common api's ends here   ************************//
+
+
