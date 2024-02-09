@@ -8,8 +8,8 @@ const port = 4000
 
 
 
-const { getMonthlyData, getMonthlySigleData } = require('./APi/MonthlyPicks/monthlyController');
-const { getNewStories, getSingleStory } = require('./APi/NewsStories/newsStoriesController');
+const { getMonthlyData, getMonthlySigleData, addMonthlyPicks, getMonthlyAuthorWiseData } = require('./APi/MonthlyPicks/monthlyController');
+const { getNewStories, getSingleStory, addStory, getAuthorWiseStory } = require('./APi/NewsStories/newsStoriesController');
 const { getSpotlightData, getSpotlightSingleData } = require('./APi/Spotlight/spotlightController');
 const { getCategoryData, getSingleCategoryData } = require('./APi/Category/categoryController');
 const { getArticleData, getArticleSingleData } = require('./APi/article/articleController');
@@ -370,6 +370,20 @@ app.get("/api/v1/monthlyPicks/:id", async (req, res) => {
     const result = await getMonthlySigleData(id)
     res.send(result)
 })
+
+app.get("/api/v1/monthlyPicksData/:author", async(req,res) =>{
+    const name = req.params.author;
+    
+    const result = await  getMonthlyAuthorWiseData(name);
+    res.send(result);
+})
+
+app.post("/api/v1/monthlyPicks", async(req,res)=>{
+    const data = req.body;
+    console.log(data);
+    const result = await addMonthlyPicks(data);
+    res.send(result);
+})
 //Monthly Picks Api's ends------
 
 
@@ -384,6 +398,18 @@ app.get("/api/v1/newStories/:id", async (req, res) => {
     const id = req.params.id
     const result = await getSingleStory(id)
     res.send(result)
+})
+
+app.get("/api/v1/stories/:author", async(req,res)=>{
+    const name = req.params.author;
+    const result = await getAuthorWiseStory(name);
+    res.send(result);
+})
+
+app.post("/api/v1/addStories", async(req,res)=>{
+    const data = req.body;
+    const result = await addStory(data);
+    res.send(result);
 })
 //News Stories Api's ends ------
 

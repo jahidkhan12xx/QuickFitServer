@@ -11,7 +11,17 @@ const getSingleStory = (id) =>{
     return res;
 }
 
+const getAuthorWiseStory = (author)=>{
+    const res = newsStories.find({author});
+    return res;
+}
+
+const addStory = (data) =>{
+    const res = newsStories.create(data);
+    return res;
+}
+
 
 module.exports = {
-    getNewStories, getSingleStory
+    getNewStories, getSingleStory,addStory,getAuthorWiseStory
 };
