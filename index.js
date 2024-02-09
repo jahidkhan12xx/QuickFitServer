@@ -18,10 +18,18 @@ const { getCartData, postCartData } = require('./APi/cart/cartController');
 const { getTipsData } = require('./APi/tips/tipsController');
 const SSLCommerzPayment = require('sslcommerz-lts');
 const { postOrderData, updateOrderData, deleteOrderData } = require('./APi/orders/orders');
+
+const { postOrderData2, updateOrderData2, deleteOrderData2 } = require('./APi/orders/orders2');
+const { postOrderData3, updateOrderData3, deleteOrderData3 } = require('./APi/orders/orders3');
+const { getChallengesData } = require('./APi/challenges/challengesController');
+const { addUser, getAllUser, getSingleUser } = require('./APi/user/userController');
+
+
 const { getTeamsData } = require('./APi/teams/teamsController');
 const { getExpertsData } = require('./APi/experts/expertsController');
 const { getServicesData } = require('./APi/services/services');
 const { postTrainerData } = require('./APi/Trainer/teainerHire');
+
 
 
 
@@ -252,6 +260,25 @@ app.get("/api/v1/books/:id", async (req, res) => {
     const result = await getBookData(id)
     res.send(result)
 })
+
+// book collection api's ends------
+
+
+
+//free challenges api
+app.get("/api/v1/challenges", async (req, res) => {
+    const result = await getChallengesData()
+    res.send(result)
+})
+
+
+// cart api's starts--------
+app.get("/api/v1/cart/:id", async (req, res) => {
+    const id = req.params.id
+    const result = await getCartData(id)
+    res.send(result)
+})
+
 
 
 // cart api's
