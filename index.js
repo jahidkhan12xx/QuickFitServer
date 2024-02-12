@@ -8,8 +8,8 @@ const port = 4000
 
 
 
-const { getMonthlyData, getMonthlySigleData } = require('./APi/MonthlyPicks/monthlyController');
-const { getNewStories, getSingleStory } = require('./APi/NewsStories/newsStoriesController');
+const { getMonthlyData, getMonthlySigleData, addMonthlyPicks, getMonthlyAuthorWiseData } = require('./APi/MonthlyPicks/monthlyController');
+const { getNewStories, getSingleStory, getAuthorWiseStory, addStory } = require('./APi/NewsStories/newsStoriesController');
 const { getSpotlightData, getSpotlightSingleData } = require('./APi/Spotlight/spotlightController');
 const { getCategoryData, getSingleCategoryData } = require('./APi/Category/categoryController');
 const { getArticleData, getArticleSingleData } = require('./APi/article/articleController');
@@ -32,7 +32,7 @@ const { postOrderData, updateOrderData, deleteOrderData } = require('./APi/order
 const { postOrderData2, updateOrderData2, deleteOrderData2 } = require('./APi/orders/orders2');
 const { postOrderData3, updateOrderData3, deleteOrderData3 } = require('./APi/orders/orders3');
 const { addUser, getAllUser, getSingleUser } = require('./APi/user/userController');
-
+const { forumPost, forumPostGet, forumSinglePostGet, forumPostComment, forumGetNewestPost } = require('./APi/forum/forumController');
 
 
 
@@ -372,6 +372,22 @@ app.get("/api/v1/monthlyPicks/:id", async (req, res) => {
     const result = await getMonthlySigleData(id)
     res.send(result)
 })
+
+app.get("/api/v1/monthlyPicksData/:author", async(req,res) =>{
+    const name = req.params.author;
+
+    const result = await  getMonthlyAuthorWiseData(name);
+    res.send(result);
+})
+
+app.post("/api/v1/monthlyPicks", async(req,res)=>{
+    const data = req.body;
+    console.log(data);
+    const result = await addMonthlyPicks(data);
+    res.send(result);
+})
+
+
 //Monthly Picks Api's ends------
 
 
@@ -387,6 +403,20 @@ app.get("/api/v1/newStories/:id", async (req, res) => {
     const result = await getSingleStory(id)
     res.send(result)
 })
+
+
+app.get("/api/v1/stories/:author", async(req,res)=>{
+    const name = req.params.author;
+    const result = await getAuthorWiseStory(name);
+    res.send(result);
+})
+
+app.post("/api/v1/addStories", async(req,res)=>{
+    const data = req.body;
+    const result = await addStory(data);
+    res.send(result);
+})
+
 //News Stories Api's ends ------
 
 
@@ -618,6 +648,50 @@ app.get("/api/v1/services", async (req, res) => {
  //*********   Trainer api's ends here   ************************//
  
 
+// Forum Apis
+
+app.post("/api/v1/forum", async(req, res) => {
+    const data = req.body;
+    const result = await forumPost(data)
+    res.send(result)
+
+})
+
+app.get("/api/v1/forum/:catgory", async(req, res) => {
+    const category = req.params.catgory;
+    const result =  await forumPostGet(category);
+    res.send(result)
+})
+
+app.get("/api/v1/forum/single/:id", async(req, res) => {
+    const id = req.params.id;
+    const result = await forumSinglePostGet(id);
+res.send(result)
+})
+
+
+app.post("/api/v1/forum/comment/:id", async(req, res) => {
+
+
+    const data = req.body;
+    const result = await forumPostComment(data)
+    
+    res.send(result)
+
+})
+
+app.get("/api/v1/forum/find/newestpost", async(req, res) => {
+
+    const result = await forumGetNewestPost()
+
+    res.send(result)
+})
+
+
+   
+
+
+//Forum Ends here
 
 
 
