@@ -6,11 +6,11 @@ const eshopProductSchema = new mongoose.Schema({
   title: String,
   subTitle: String,
   image: String,
-  features: Array,
+  features: [String],
+  price: Number,
 });
 
 module.exports = mongoose.model(
   "eshopProduct",
   eshopProductSchema,
-  "eshopProducts"
 );
