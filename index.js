@@ -7,7 +7,6 @@ const port = 4000
 
 
 
-
 const { getMonthlyData, getMonthlySigleData, addMonthlyPicks, getMonthlyAuthorWiseData } = require('./APi/MonthlyPicks/monthlyController');
 const { getNewStories, getSingleStory, getAuthorWiseStory, addStory } = require('./APi/NewsStories/newsStoriesController');
 const { getSpotlightData, getSpotlightSingleData } = require('./APi/Spotlight/spotlightController');
