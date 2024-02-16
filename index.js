@@ -3,7 +3,8 @@ require('dotenv').config()
 const app = express()
 const cors = require("cors")
 const mongoose = require("mongoose");
-const port = 3001 
+const port = 4000
+
 
 
 
@@ -32,6 +33,8 @@ const { postOrderData2, updateOrderData2, deleteOrderData2 } = require('./APi/or
 const { postOrderData3, updateOrderData3, deleteOrderData3 } = require('./APi/orders/orders3');
 const { addUser, getAllUser, getSingleUser } = require('./APi/user/userController');
 const { forumPost, forumPostGet, forumSinglePostGet, forumPostComment, forumGetNewestPost } = require('./APi/forum/forumController');
+const { getWorkoutData, getSingleWorkoutData } = require('./APi/Workout/workoutController');
+const { postTrackerData, updateTrackerData, getTrackerData, getCurrentTrackerData } = require('./APi/tracker/trackerController');
 
 
 
@@ -448,6 +451,21 @@ app.get("/api/v1/category/:id", async (req, res) => {
     res.send(result)
 })
 // Category Api's ends--------
+
+
+
+// Workout Api's starts--------
+app.get("/api/v1/workout", async (req, res) => {
+    const result = await getWorkoutData();
+    res.send(result);
+})
+
+app.get("/api/v1/workout/:id", async (req, res) => {
+    const id = req.params.id
+    const result = await getSingleWorkoutData(id)
+    res.send(result)
+})
+// Workout Api's ends--------
 
 
 
