@@ -3,7 +3,7 @@ require('dotenv').config()
 const app = express()
 const cors = require("cors")
 const mongoose = require("mongoose");
-const port = 3001
+const port = 3001;
 const http = require("http");
 const server = http.createServer(app)
 const { Server } = require('socket.io');
@@ -63,6 +63,24 @@ app.use(express.json())
 //********* Middleware's Ends Here *********//
 
 
+
+
+//********* Database Connection Here *********//
+
+
+
+mongoose.connect(process.env.DB_URI)
+mongoose.connection.on('connected', () => {
+    console.log("database connected");
+})
+
+// disable auto pluralize
+mongoose.pluralize(null);
+
+//********* Database Connection Ends Here *********//
+
+
+
 //********* Socket connection  Here *********//
 
 app.get("/api/v1/chats",async(req,res)=>{
@@ -97,25 +115,11 @@ io.on("connection",(socket)=>{
 
 
 
-server.listen(5000, () => {
+server.listen(port, () => {
     console.log('server running at http://localhost:5000');
   });
 
   //********* Socket connection Ends  Here *********//
-
-//********* Database Connection Here *********//
-
-
-
-mongoose.connect(process.env.DB_URI)
-mongoose.connection.on('connected', () => {
-    console.log("database connected");
-})
-
-// disable auto pluralize
-mongoose.pluralize(null);
-
-//********* Database Connection Ends Here *********//
 
 // payment method start here
 
@@ -829,9 +833,6 @@ app.get('/', (req, res) => {
     res.send('Hello World!')
 })
 
-app.listen(port, () => {
-    console.log(`Example app listening on port ${port}`)
-})
 
 
 
