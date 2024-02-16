@@ -112,7 +112,7 @@ io.on("connection",(socket)=>{
 
 
 server.listen(port, () => {
-    console.log('server running at http://localhost:5000');
+    console.log('server running ');
   });
 
   //********* Socket connection Ends  Here *********//
