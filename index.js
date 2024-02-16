@@ -45,7 +45,7 @@ const { postOrderData2, updateOrderData2, deleteOrderData2 } = require('./APi/or
 const { postOrderData3, updateOrderData3, deleteOrderData3 } = require('./APi/orders/orders3');
 const { addUser, getAllUser, getSingleUser } = require('./APi/user/userController');
 // const { forumPost, forumPostGet, forumSinglePostGet, forumPostComment, forumGetNewestPost } = require('./APi/forum/forumController');
-const { forumPost, forumPostGet, forumSinglePostGet, forumPostComment, forumGetNewestPost, forumPostLike, forumSearch, forumPostsByEmail } = require('./APi/forum/forumController');
+const { forumPost, forumPostGet, forumSinglePostGet, forumPostComment, forumGetNewestPost, forumPostLike, forumSearch, forumPostsByEmail, forumPopularPost } = require('./APi/forum/forumController');
 const { getWorkoutData, getSingleWorkoutData } = require('./APi/Workout/workoutController');
 const { postTrackerData, updateTrackerData, getTrackerData, getCurrentTrackerData, deleteTrackerData, getSingleTrackerData } = require('./APi/tracker/trackerController');
 
@@ -571,6 +571,13 @@ app.get("/api/v1/forum/single/:id", async (req, res) => {
 app.get("/api/v1/forum/find/newestpost", async (req, res) => {
 
     const result = await forumGetNewestPost()
+
+    res.send(result)
+})
+
+app.get("/api/v1/forum/find/popularpost", async (req, res) => {
+
+    const result = await forumPopularPost()
 
     res.send(result)
 })

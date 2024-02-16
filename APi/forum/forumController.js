@@ -17,14 +17,14 @@ const forumSinglePostGet = (id) => {
 };
 
 const forumPostComment = async (data) => {
-  const { comment, userEmail, postId, userName ,userPhoto } = data;
+  const { comment, userEmail, postId, userName, userPhoto } = data;
 
   try {
     const post = await forumCollection.findById(postId);
     if (!post) {
       throw new Error("Post not found");
     }
-    post.comments.push({ text: comment, userEmail,userName ,userPhoto });
+    post.comments.push({ text: comment, userEmail, userName, userPhoto });
 
     await post.save();
 
@@ -35,10 +35,7 @@ const forumPostComment = async (data) => {
   }
 };
 
-
-
 const forumPostLike = async (data) => {
-
   const { postId, likeEmail } = data;
 
   const fetchPost = await forumCollection.findById(postId);
@@ -73,9 +70,7 @@ const forumPostLike = async (data) => {
       .exec();
     return "Like Removed!!";
   }
-
 };
-
 
 const forumGetNewestPost = async () => {
   try {
@@ -88,35 +83,58 @@ const forumGetNewestPost = async () => {
   }
 };
 
-
-const  forumSearch = async(data) => {
- try{
-
-  const {searchTerm} = data
-  console.log(searchTerm)
-  console.log("lalal")
-
- }
-catch(error) {
-
-  console.log(error)
-
-}
-}
-
-const forumPostsByEmail =  async(email) => {
-  try{
-      // const {email} = data;
-      
-      const posts = await forumCollection.find({userEmail: email}).sort({ date: -1 })
-      console.log(posts)
-       return posts
-  } catch(error){
-    console.log(error)
+const forumPopularPost = async () => {
+  try {
+    const posts = await forumCollection
+      .aggregate([
+        {
+          $project: {
+            _id: 1, // Include the post ID if needed
+            title: 1, // Include other fields you want in the result
+            likesCount: { $size: "$likes" },
+            commnetsCount: { $size: "$comments" },
+            userName: 1,
+            userPhoto: 1,
+            userEmail: 1,
+            date: 1,
+          },
+        },
+        {
+          $sort: { likesCount: -1 },
+        },
+      ])
+      .exec();
+    console.log(posts);
+    return posts;
+  } catch (error) {
+    console.error("Error fetching newest posts:", error);
+    throw error;
   }
-}
+};
 
+const forumSearch = async (data) => {
+  try {
+    const { searchTerm } = data;
+    console.log(searchTerm);
+    console.log("lalal");
+  } catch (error) {
+    console.log(error);
+  }
+};
 
+const forumPostsByEmail = async (email) => {
+  try {
+    // const {email} = data;
+
+    const posts = await forumCollection
+      .find({ userEmail: email })
+      .sort({ date: -1 });
+    console.log(posts);
+    return posts;
+  } catch (error) {
+    console.log(error);
+  }
+};
 
 module.exports = {
   forumPost,
@@ -124,7 +142,8 @@ module.exports = {
   forumSinglePostGet,
   forumPostComment,
   forumGetNewestPost,
+  forumPopularPost,
   forumPostLike,
   forumSearch,
-  forumPostsByEmail
+  forumPostsByEmail,
 };
