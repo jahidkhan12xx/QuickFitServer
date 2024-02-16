@@ -30,8 +30,18 @@ const getCurrentTrackerData = async (Email) => {
     
     return res;
   }
+
+  const getSingleTrackerData = async (id) => {
+    const res = await trackerCollection.findById(id)
+    return res
+  }
+
+  const deleteTrackerData = async (id)=> {
+    const res = await trackerCollection.findByIdAndDelete(id)
+    return res
+  }
   
 
 module.exports = {
-    getTrackerData, postTrackerData, getCurrentTrackerData, updateTrackerData
+    getTrackerData, postTrackerData, getCurrentTrackerData, updateTrackerData, getSingleTrackerData, deleteTrackerData
 }
