@@ -36,12 +36,16 @@ const { getExpertsData } = require('./APi/experts/expertsController');
 const { getServicesData } = require('./APi/services/services');
 const { postTrainerData } = require('./APi/Trainer/teainerHire');
 
+
+
+
 const SSLCommerzPayment = require('sslcommerz-lts');
 const { postOrderData, updateOrderData, deleteOrderData } = require('./APi/orders/orders');
 const { postOrderData2, updateOrderData2, deleteOrderData2 } = require('./APi/orders/orders2');
 const { postOrderData3, updateOrderData3, deleteOrderData3 } = require('./APi/orders/orders3');
 const { addUser, getAllUser, getSingleUser } = require('./APi/user/userController');
-const { forumPost, forumPostGet, forumSinglePostGet, forumPostComment, forumGetNewestPost } = require('./APi/forum/forumController');
+// const { forumPost, forumPostGet, forumSinglePostGet, forumPostComment, forumGetNewestPost } = require('./APi/forum/forumController');
+const { forumPost, forumPostGet, forumSinglePostGet, forumPostComment, forumGetNewestPost, forumPostLike, forumSearch, forumPostsByEmail, forumPopularPost } = require('./APi/forum/forumController');
 const { getWorkoutData, getSingleWorkoutData } = require('./APi/Workout/workoutController');
 const { postTrackerData, updateTrackerData, getTrackerData, getCurrentTrackerData, deleteTrackerData, getSingleTrackerData } = require('./APi/tracker/trackerController');
 
@@ -547,6 +551,84 @@ app.get("/api/v1/books/:id", async (req, res) => {
 
 
 
+// Forum Apis
+
+app.post("/api/v1/forum", async (req, res) => {
+    const data = req.body;
+    const result = await forumPost(data)
+    res.send(result)
+
+})
+
+app.get("/api/v1/forum/:catgory", async (req, res) => {
+    const category = req.params.catgory;
+    const result = await forumPostGet(category);
+    res.send(result)
+})
+
+app.get("/api/v1/forum/single/:id", async (req, res) => {
+    const id = req.params.id;
+    const result = await forumSinglePostGet(id);
+    res.send(result)
+})
+
+app.get("/api/v1/forum/find/newestpost", async (req, res) => {
+
+    const result = await forumGetNewestPost()
+
+    res.send(result)
+})
+
+app.get("/api/v1/forum/find/popularpost", async (req, res) => {
+
+    const result = await forumPopularPost()
+
+    res.send(result)
+})
+
+app.post("/api/v1/forum/comment/:id", async (req, res) => {
+
+
+    const data = req.body;
+    const result = await forumPostComment(data)
+
+    res.send(result)
+
+})
+
+
+app.put("/api/v1/forum/like", async(req, res) => {
+    const data = req.body;
+    const result = await forumPostLike(data);
+
+    res.send(result)
+})
+
+app.post("/api/v1/forum/search", async(req, res) => {
+    const data = req.body;
+
+    const result= await forumSearch(data)
+
+    res.send(result)
+})
+
+app.get("/api/v1/forum/userprofile/:email", async(req, res) => {
+    const email = req.params.email;
+
+    console.log(email)
+
+    const result = await forumPostsByEmail(email);
+
+    res.send(result);
+})
+
+
+
+//Forum Ends here
+
+
+
+
 // cart api's starts--------
 app.get("/api/v1/cart/:id", async (req, res) => {
     const id = req.params.id
@@ -649,19 +731,19 @@ app.get("/api/v1/comments/:blogId", async (req, res) => {
 
 //user api's
 
-app.post("/api/v1/users", async(req,res)=>{
+app.post("/api/v1/users", async (req, res) => {
     const data = req.body;
     console.log(data);
     const result = await addUser(data);
     res.send(result);
 })
 
-app.get("/api/v1/users", async(req,res)=>{
+app.get("/api/v1/users", async (req, res) => {
     const result = await getAllUser();
     res.send(result);
 })
 
-app.get("/api/v1/users/:email", async(req,res)=>{
+app.get("/api/v1/users/:email", async (req, res) => {
     const result = await getSingleUser(req.params.email);
     res.send(result);
 })
@@ -709,51 +791,6 @@ app.get("/api/v1/services", async (req, res) => {
  })
  //*********   Trainer api's ends here   ************************//
  
-
-// Forum Apis
-
-app.post("/api/v1/forum", async(req, res) => {
-    const data = req.body;
-    const result = await forumPost(data)
-    res.send(result)
-
-})
-
-app.get("/api/v1/forum/:catgory", async(req, res) => {
-    const category = req.params.catgory;
-    const result =  await forumPostGet(category);
-    res.send(result)
-})
-
-app.get("/api/v1/forum/single/:id", async(req, res) => {
-    const id = req.params.id;
-    const result = await forumSinglePostGet(id);
-res.send(result)
-})
-
-
-app.post("/api/v1/forum/comment/:id", async(req, res) => {
-
-
-    const data = req.body;
-    const result = await forumPostComment(data)
-    
-    res.send(result)
-
-})
-
-app.get("/api/v1/forum/find/newestpost", async(req, res) => {
-
-    const result = await forumGetNewestPost()
-
-    res.send(result)
-})
-
-
-   
-
-
-//Forum Ends here
 
 
 // exercise tracker api's starts ===
