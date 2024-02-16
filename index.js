@@ -3,7 +3,7 @@ require('dotenv').config()
 const app = express()
 const cors = require("cors")
 const mongoose = require("mongoose");
-const port = 3001
+const port = 4000
 
 
 
@@ -32,7 +32,7 @@ const { postTrainerData } = require('./APi/Trainer/teainerHire');
 
 
 
-const { forumPost, forumPostGet, forumSinglePostGet, forumPostComment, forumGetNewestPost } = require('./APi/forum/forumController');
+const { forumPost, forumPostGet, forumSinglePostGet, forumPostComment, forumGetNewestPost, forumPostLike, forumSearch, forumPostsByEmail } = require('./APi/forum/forumController');
 
 
 
@@ -282,27 +282,75 @@ app.get("/api/v1/cart/:id", async (req, res) => {
     res.send(result)
 })
 
+
+
+
+
+
 // Forum Apis
 
-app.post("/api/v1/forum", async(req, res) => {
+app.post("/api/v1/forum", async (req, res) => {
     const data = req.body;
     const result = await forumPost(data)
     res.send(result)
 
 })
 
-app.get("/api/v1/forum/:catgory", async(req, res) => {
+app.get("/api/v1/forum/:catgory", async (req, res) => {
     const category = req.params.catgory;
-    const result =  await forumPostGet(category);
+    const result = await forumPostGet(category);
     res.send(result)
 })
 
-app.get("/api/v1/forum/single/:id", async(req, res) => {
+app.get("/api/v1/forum/single/:id", async (req, res) => {
     const id = req.params.id;
     const result = await forumSinglePostGet(id);
-res.send(result)
+    res.send(result)
 })
-   
+
+app.get("/api/v1/forum/find/newestpost", async (req, res) => {
+
+    const result = await forumGetNewestPost()
+
+    res.send(result)
+})
+
+app.post("/api/v1/forum/comment/:id", async (req, res) => {
+
+
+    const data = req.body;
+    const result = await forumPostComment(data)
+
+    res.send(result)
+
+})
+
+
+app.put("/api/v1/forum/like", async(req, res) => {
+    const data = req.body;
+    const result = await forumPostLike(data);
+
+    res.send(result)
+})
+
+app.post("/api/v1/forum/search", async(req, res) => {
+    const data = req.body;
+
+    const result= await forumSearch(data)
+
+    res.send(result)
+})
+
+app.get("/api/v1/forum/userprofile/:email", async(req, res) => {
+    const email = req.params.email;
+
+    console.log(email)
+
+    const result = await forumPostsByEmail(email);
+
+    res.send(result);
+})
+
 
 
 //Forum Ends here
@@ -335,38 +383,24 @@ app.get("/api/v1/cart/:id", async (req, res) => {
 })
 
 
-app.post("/api/v1/forum/comment/:id", async(req, res) => {
 
 
-    const data = req.body;
-    const result = await forumPostComment(data)
-    
-    res.send(result)
-
-})
-
-app.get("/api/v1/forum/find/newestpost", async(req, res) => {
-
-    const result = await forumGetNewestPost()
-
-    res.send(result)
-})
 
 //user api's
 
-app.post("/api/v1/users", async(req,res)=>{
+app.post("/api/v1/users", async (req, res) => {
     const data = req.body;
     console.log(data);
     const result = await addUser(data);
     res.send(result);
 })
 
-app.get("/api/v1/users", async(req,res)=>{
+app.get("/api/v1/users", async (req, res) => {
     const result = await getAllUser();
     res.send(result);
 })
 
-app.get("/api/v1/users/:email", async(req,res)=>{
+app.get("/api/v1/users/:email", async (req, res) => {
     const result = await getSingleUser(req.params.email);
     res.send(result);
 })
