@@ -3,7 +3,7 @@ require('dotenv').config()
 const app = express()
 const cors = require("cors")
 const mongoose = require("mongoose");
-const port = 4000
+const port = 3001
 const http = require("http");
 const server = http.createServer(app)
 const { Server } = require('socket.io');
@@ -13,6 +13,7 @@ const io = new Server(server,{
         methods:["GET","POST"]
     }
 })
+
 
 
 
@@ -41,6 +42,8 @@ const { postOrderData2, updateOrderData2, deleteOrderData2 } = require('./APi/or
 const { postOrderData3, updateOrderData3, deleteOrderData3 } = require('./APi/orders/orders3');
 const { addUser, getAllUser, getSingleUser } = require('./APi/user/userController');
 const { forumPost, forumPostGet, forumSinglePostGet, forumPostComment, forumGetNewestPost } = require('./APi/forum/forumController');
+const { getWorkoutData, getSingleWorkoutData } = require('./APi/Workout/workoutController');
+const { postTrackerData, updateTrackerData, getTrackerData, getCurrentTrackerData, deleteTrackerData, getSingleTrackerData } = require('./APi/tracker/trackerController');
 
 
 
@@ -492,6 +495,21 @@ app.get("/api/v1/category/:id", async (req, res) => {
 
 
 
+// Workout Api's starts--------
+app.get("/api/v1/workout", async (req, res) => {
+    const result = await getWorkoutData();
+    res.send(result);
+})
+
+app.get("/api/v1/workout/:id", async (req, res) => {
+    const id = req.params.id
+    const result = await getSingleWorkoutData(id)
+    res.send(result)
+})
+// Workout Api's ends--------
+
+
+
 // eshop product api's starts--------
 app.get("/api/v1/eshop/:id", async (req, res) => {
     const id = req.params.id
@@ -733,6 +751,39 @@ app.get("/api/v1/forum/find/newestpost", async(req, res) => {
 
 //Forum Ends here
 
+
+// exercise tracker api's starts ===
+app.post("/api/v1/tracker", async (req, res)=> {
+    const result = await postTrackerData(req.body) 
+    res.send(result)
+})
+
+app.patch("/api/v1/tracker/update/:id", async (req, res)=> {
+    const result = await updateTrackerData(req.body, req.params.id) 
+    res.send(result)
+})
+
+app.get("/api/v1/tracker/:email", async (req, res)=> {
+    const result = await getTrackerData(req.params.email)
+    res.send(result)
+})
+
+app.get("/api/v1/tracker/date/:email", async (req, res)=> {
+    const result = await getCurrentTrackerData(req.params.email)
+    res.send(result)
+})
+
+app.get("/api/v1/tracker/single/:id", async (req, res)=> {
+    const result = await getSingleTrackerData(req.params.id)
+    res.send(result)
+})
+
+app.delete("/api/v1/tracker/:id", async (req, res)=> {
+    const result = await deleteTrackerData(req.params.id)
+    res.send(result)
+})
+
+// exercise tracker api's ends ===
 
 
 //*********   Common api's here   ************************//
