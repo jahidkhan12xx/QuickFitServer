@@ -4,7 +4,15 @@ const app = express()
 const cors = require("cors")
 const mongoose = require("mongoose");
 const port = 4000
-
+const http = require("http");
+const server = http.createServer(app)
+const { Server } = require('socket.io');
+const io = new Server(server,{
+    cors:{
+        origin:"*",
+        methods:["GET","POST"]
+    }
+})
 
 
 
@@ -48,13 +56,45 @@ app.use(express.json())
 //********* Middleware's Ends Here *********//
 
 
+//********* Socket connection  Here *********//
+
+app.get("/api/v1/chats",async(req,res)=>{
+    const result = await getChat();
+    res.send(result)
+})
+
+const chatCollection = require("./Database/Schema/chat/chatSchema");
+const { getChat } = require('./APi/chat/chatController');
+
+io.on("connection",(socket)=>{
+    console.log(`User Connected : ${socket.id}`);
+  
+  
+    socket.on("send_message",(message)=>{
+       
+  
+      chatCollection.create(message)
+      
+      //Broadcasting Message to all Sockets
+      
+  
+      io.emit("received_message",message)
+    })
+  
+   socket.on("disconnect",()=>{
+    console.log("User Disconnect");
+   })
+  })
+  
 
 
 
 
+server.listen(5000, () => {
+    console.log('server running at http://localhost:5000');
+  });
 
-
-
+  //********* Socket connection Ends  Here *********//
 
 //********* Database Connection Here *********//
 
