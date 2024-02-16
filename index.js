@@ -3,7 +3,7 @@ require('dotenv').config()
 const app = express()
 const cors = require("cors")
 const mongoose = require("mongoose");
-const port = 4000
+const port = 3001 
 
 
 
@@ -692,6 +692,29 @@ app.get("/api/v1/forum/find/newestpost", async(req, res) => {
 
 //Forum Ends here
 
+
+// exercise tracker api's starts ===
+app.post("/api/v1/tracker", async (req, res)=> {
+    const result = await postTrackerData(req.body) 
+    res.send(result)
+})
+
+app.patch("/api/v1/tracker/update/:id", async (req, res)=> {
+    const result = await updateTrackerData(req.body, req.params.id) 
+    res.send(result)
+})
+
+app.get("/api/v1/tracker/:email", async (req, res)=> {
+    const result = await getTrackerData(req.params.email)
+    res.send(result)
+})
+
+app.get("/api/v1/tracker/date/:email", async (req, res)=> {
+    const result = await getCurrentTrackerData(req.params.email)
+    res.send(result)
+})
+
+// exercise tracker api's ends ===
 
 
 //*********   Common api's here   ************************//
