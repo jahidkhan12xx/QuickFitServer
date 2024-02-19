@@ -604,13 +604,18 @@ app.put("/api/v1/forum/like", async(req, res) => {
     res.send(result)
 })
 
-app.post("/api/v1/forum/search", async(req, res) => {
-    const data = req.body;
+app.get("/api/v1/forum/content/search", async(req, res) => {
 
-    const result= await forumSearch(data)
-
+    const searchTerm = req.query.searchTerm;
+    const result = await forumSearch(searchTerm);
+    console.log("working form index js", searchTerm)
     res.send(result)
-})
+}
+ 
+
+)
+
+
 
 app.get("/api/v1/forum/userprofile/:email", async(req, res) => {
     const email = req.params.email;
