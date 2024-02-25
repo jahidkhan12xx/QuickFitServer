@@ -32,7 +32,6 @@ const getCurrentTrackerData = async (Email) => {
 };
 
 const getPreviousTrackerData = async (Email) => {
-
     const res = await trackerCollection.find({ email: Email, date: {
       $ne:today
     }});
