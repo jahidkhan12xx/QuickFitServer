@@ -46,7 +46,7 @@ const { postOrderData3, updateOrderData3, deleteOrderData3 } = require('./APi/or
 const { addUser, getAllUser, getSingleUser, deleteUserData, updateUserDRole, updateUserRole, updatePublisherRole } = require('./APi/user/userController');
 const { forumPost, forumPostGet, forumSinglePostGet, forumPostComment, forumGetNewestPost, forumPostLike, forumSearch, forumPostsByEmail, forumPopularPost } = require('./APi/forum/forumController');
 const { getWorkoutData, getSingleWorkoutData } = require('./APi/Workout/workoutController');
-const { postTrackerData, updateTrackerData, getTrackerData, getCurrentTrackerData, deleteTrackerData, getSingleTrackerData } = require('./APi/tracker/trackerController');
+const { postTrackerData, updateTrackerData, getTrackerData, getCurrentTrackerData, deleteTrackerData, getSingleTrackerData, getPreviousTrackerData } = require('./APi/tracker/trackerController');
 
 
 
@@ -845,6 +845,11 @@ app.get("/api/v1/tracker/:email", async (req, res)=> {
 
 app.get("/api/v1/tracker/date/:email", async (req, res)=> {
     const result = await getCurrentTrackerData(req.params.email)
+    res.send(result)
+})
+
+app.get("/api/v1/tracker/history/:email", async (req, res)=> {
+    const result = await getPreviousTrackerData(req.params.email)
     res.send(result)
 })
 
