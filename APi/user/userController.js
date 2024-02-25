@@ -1,4 +1,5 @@
 const userCollection = require("../../Database/Schema/users/users")
+
 const getAllUser= () =>{
     const res  = userCollection.find();
     return res;
@@ -24,8 +25,34 @@ const getSingleUser = (email) =>{
 }
 
 
+const deleteUserData = async (id)=> {
+    const res = await userCollection.findByIdAndDelete(id)
+    return res;
+  }
+
+const updateUserRole = async (id) => {
+    const res = await userCollection.findByIdAndUpdate(id, {
+      $set : {
+        role: 'admin'
+      }
+    })
+  }
+const updatePublisherRole = async (id) => {
+    const res = await userCollection.findByIdAndUpdate(id, {
+      $set : {
+        role: 'publisher'
+      }
+    })
+  }
+
+
+
+
 module.exports = {
     getAllUser,
     addUser,
-    getSingleUser
+    getSingleUser,
+    deleteUserData,
+    updateUserRole,
+    updatePublisherRole
 }
