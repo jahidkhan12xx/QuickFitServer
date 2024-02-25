@@ -44,7 +44,6 @@ const { postOrderData, updateOrderData, deleteOrderData } = require('./APi/order
 const { postOrderData2, updateOrderData2, deleteOrderData2 } = require('./APi/orders/orders2');
 const { postOrderData3, updateOrderData3, deleteOrderData3 } = require('./APi/orders/orders3');
 const { addUser, getAllUser, getSingleUser, deleteUserData, updateUserDRole, updateUserRole, updatePublisherRole } = require('./APi/user/userController');
-// const { forumPost, forumPostGet, forumSinglePostGet, forumPostComment, forumGetNewestPost } = require('./APi/forum/forumController');
 const { forumPost, forumPostGet, forumSinglePostGet, forumPostComment, forumGetNewestPost, forumPostLike, forumSearch, forumPostsByEmail, forumPopularPost } = require('./APi/forum/forumController');
 const { getWorkoutData, getSingleWorkoutData } = require('./APi/Workout/workoutController');
 const { postTrackerData, updateTrackerData, getTrackerData, getCurrentTrackerData, deleteTrackerData, getSingleTrackerData } = require('./APi/tracker/trackerController');
