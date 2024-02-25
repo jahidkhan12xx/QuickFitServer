@@ -44,7 +44,6 @@ const { postOrderData, updateOrderData, deleteOrderData } = require('./APi/order
 const { postOrderData2, updateOrderData2, deleteOrderData2 } = require('./APi/orders/orders2');
 const { postOrderData3, updateOrderData3, deleteOrderData3 } = require('./APi/orders/orders3');
 const { addUser, getAllUser, getSingleUser, deleteUserData, updateUserDRole, updateUserRole, updatePublisherRole } = require('./APi/user/userController');
-// const { forumPost, forumPostGet, forumSinglePostGet, forumPostComment, forumGetNewestPost } = require('./APi/forum/forumController');
 const { forumPost, forumPostGet, forumSinglePostGet, forumPostComment, forumGetNewestPost, forumPostLike, forumSearch, forumPostsByEmail, forumPopularPost } = require('./APi/forum/forumController');
 const { getWorkoutData, getSingleWorkoutData } = require('./APi/Workout/workoutController');
 const { postTrackerData, updateTrackerData, getTrackerData, getCurrentTrackerData, deleteTrackerData, getSingleTrackerData } = require('./APi/tracker/trackerController');
@@ -614,13 +613,18 @@ app.put("/api/v1/forum/like", async(req, res) => {
     res.send(result)
 })
 
-app.post("/api/v1/forum/search", async(req, res) => {
-    const data = req.body;
+app.get("/api/v1/forum/content/search", async(req, res) => {
 
-    const result= await forumSearch(data)
-
+    const searchTerm = req.query.searchTerm;
+    const result = await forumSearch(searchTerm);
+    console.log("working form index js", searchTerm)
     res.send(result)
-})
+}
+ 
+
+)
+
+
 
 app.get("/api/v1/forum/userprofile/:email", async(req, res) => {
     const email = req.params.email;
