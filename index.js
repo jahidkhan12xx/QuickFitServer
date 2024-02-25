@@ -21,7 +21,7 @@ const { getMonthlyData, getMonthlySigleData, addMonthlyPicks, getMonthlyAuthorWi
 const { getNewStories, getSingleStory, getAuthorWiseStory, addStory } = require('./APi/NewsStories/newsStoriesController');
 const { getSpotlightData, getSpotlightSingleData } = require('./APi/Spotlight/spotlightController');
 const { getCategoryData, getSingleCategoryData } = require('./APi/Category/categoryController');
-const { getArticleData, getArticleSingleData } = require('./APi/article/articleController');
+const { getArticleData, getArticleSingleData, postArticleData, deleteArticleData } = require('./APi/article/articleController');
 const { getEshopData, getEshopSingleData, getEshopAllData } = require('./APi/EshopProducts/eshopController');
 const { getCartData, postCartData, getCartAllData, deleteCartData } = require('./APi/cart/cartController');
 const { getBookData, getSingleBookData } = require('./APi/books/booksController');
@@ -43,8 +43,7 @@ const SSLCommerzPayment = require('sslcommerz-lts');
 const { postOrderData, updateOrderData, deleteOrderData } = require('./APi/orders/orders');
 const { postOrderData2, updateOrderData2, deleteOrderData2 } = require('./APi/orders/orders2');
 const { postOrderData3, updateOrderData3, deleteOrderData3 } = require('./APi/orders/orders3');
-const { addUser, getAllUser, getSingleUser } = require('./APi/user/userController');
-// const { forumPost, forumPostGet, forumSinglePostGet, forumPostComment, forumGetNewestPost } = require('./APi/forum/forumController');
+const { addUser, getAllUser, getSingleUser, deleteUserData, updateUserDRole, updateUserRole, updatePublisherRole } = require('./APi/user/userController');
 const { forumPost, forumPostGet, forumSinglePostGet, forumPostComment, forumGetNewestPost, forumPostLike, forumSearch, forumPostsByEmail, forumPopularPost } = require('./APi/forum/forumController');
 const { getWorkoutData, getSingleWorkoutData } = require('./APi/Workout/workoutController');
 const { postTrackerData, updateTrackerData, getTrackerData, getCurrentTrackerData, deleteTrackerData, getSingleTrackerData, getPreviousTrackerData } = require('./APi/tracker/trackerController');
@@ -408,6 +407,16 @@ app.get("/api/v1/articles/:id", async (req, res) => {
     const result = await getArticleSingleData(id)
     res.send(result)
 })
+
+app.post("/api/v1/articles", async (req, res)=> {
+    const result = await postArticleData(req.body) 
+    res.send(result)
+})
+
+app.delete("/api/v1/articles/:id", async (req, res)=> {
+    const result = await deleteArticleData(req.params.id)
+    res.send(result)
+})
 //article api's ends--------
 
 
@@ -604,13 +613,18 @@ app.put("/api/v1/forum/like", async(req, res) => {
     res.send(result)
 })
 
-app.post("/api/v1/forum/search", async(req, res) => {
-    const data = req.body;
+app.get("/api/v1/forum/content/search", async(req, res) => {
 
-    const result= await forumSearch(data)
-
+    const searchTerm = req.query.searchTerm;
+    const result = await forumSearch(searchTerm);
+    console.log("working form index js", searchTerm)
     res.send(result)
-})
+}
+ 
+
+)
+
+
 
 app.get("/api/v1/forum/userprofile/:email", async(req, res) => {
     const email = req.params.email;
@@ -747,6 +761,26 @@ app.get("/api/v1/users/:email", async (req, res) => {
     const result = await getSingleUser(req.params.email);
     res.send(result);
 })
+
+
+app.delete("/api/v1/users/:id", async (req, res)=> {
+    const result = await deleteUserData(req.params.id)
+    res.send(result)
+})
+
+//User Role Change
+app.patch("/api/v1/users/admin/:id", async (req, res)=> {
+    console.log(req.params?.id)
+    const result = await updateUserRole(req.params.id) 
+    res.send(result)
+})
+app.patch("/api/v1/users/publisher/:id", async (req, res)=> {
+    console.log(req.params?.id)
+    const result = await updatePublisherRole(req.params.id) 
+    res.send(result)
+})
+
+
 
 //*********   All APi's Ends here   ************************//
 

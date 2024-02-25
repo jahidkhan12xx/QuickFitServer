@@ -75,7 +75,7 @@ const forumPostLike = async (data) => {
 const forumGetNewestPost = async () => {
   try {
     const posts = await forumCollection.find({}).sort({ date: -1 }).exec();
-
+    
     return posts;
   } catch (error) {
     console.error("Error fetching newest posts:", error);
@@ -104,7 +104,7 @@ const forumPopularPost = async () => {
         },
       ])
       .exec();
-    console.log(posts);
+    // console.log(posts);
     return posts;
   } catch (error) {
     console.error("Error fetching newest posts:", error);
@@ -112,15 +112,29 @@ const forumPopularPost = async () => {
   }
 };
 
-const forumSearch = async (data) => {
+const forumSearch = async(searchTerm) => {
+  // console.log("this is worikng from controllar", searchTerm);
+
   try {
-    const { searchTerm } = data;
-    console.log(searchTerm);
-    console.log("lalal");
+    const searchResult = await forumCollection.find({
+      $or: [
+        {title: {$regex: searchTerm, $options: 'i'}},
+        {content: {$regex: searchTerm, $options: 'i'}},
+      ]
+    })
+    return searchResult
+
   } catch (error) {
-    console.log(error);
+    console.log('error finding results')
+    throw error
   }
-};
+
+}
+
+
+
+
+
 
 const forumPostsByEmail = async (email) => {
   try {
@@ -129,7 +143,7 @@ const forumPostsByEmail = async (email) => {
     const posts = await forumCollection
       .find({ userEmail: email })
       .sort({ date: -1 });
-    console.log(posts);
+    // console.log(posts);
     return posts;
   } catch (error) {
     console.log(error);
