@@ -1,4 +1,4 @@
-const trackerCollection = require("../../Database/Schema/tracker/tracker")
+const trackerCollection = require("../../Database/Schema/tracker/tracker");
 
 const postTrackerData = async (req,res) => {
   const result =  await trackerCollection.create(req.body)
@@ -46,5 +46,11 @@ const getCurrentTrackerData = async (req,res) => {
   
 
 module.exports = {
-    getTrackerData, postTrackerData, getCurrentTrackerData, updateTrackerData, getSingleTrackerData, deleteTrackerData
-}
+  getTrackerData,
+  postTrackerData,
+  getCurrentTrackerData,
+  updateTrackerData,
+  getSingleTrackerData,
+  deleteTrackerData,
+  getPreviousTrackerData
+};
