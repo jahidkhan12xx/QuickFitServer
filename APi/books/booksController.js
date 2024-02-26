@@ -1,15 +1,23 @@
-const books = require("../../Database/Schema/books/books")
+const books = require("../../Database/Schema/books/books.js")
 
-const getBookData = (id) =>{
-const res = books.findOne({category:id})
-return res
+const getBookData = async (req,res) =>{
+    const id = req.params.id;
+const result = await books.findOne({category:id})
+res.send(result)
 }
 
-const getSingleBookData = (id) =>{
-    const res = books.findById(id)
-return res
+const getSingleBookData = async (req,res) =>{
+    const id = req.params.id;
+    const result = await books.findById(id)
+res.send(result)
+}
+
+const getAllBooksData = async (req,res) =>{
+    
+    const result = await books.find()
+res.send(result)
 }
 
 module.exports= {
-    getBookData , getSingleBookData
+    getBookData , getSingleBookData, getAllBooksData
 }

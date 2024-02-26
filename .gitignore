@@ -1,2 +1,3 @@
 .vercel
-edit.json
+.vscode
+node_modules

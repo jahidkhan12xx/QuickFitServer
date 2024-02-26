@@ -15,13 +15,9 @@ const forumSchema = new mongoose.Schema({
             type: Date,
             default: Date.now,
           },
-          userName: String,
-          userPhoto : String,
         },
       ],
-      
-      userName: String,
-      userPhoto: String,
+
 
 })
 
