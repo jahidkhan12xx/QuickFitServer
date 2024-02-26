@@ -1,22 +1,26 @@
-const forumCollection = require("../../Database/Schema/forum/forum");
+const forumCollection = require("../../Database/Schema/forum/forum.js");
 
-const forumPost = (data) => {
-  const res = forumCollection.create(data);
-  return res;
+const forumPost = async (req,res) => {
+    const data = req.body;
+  const result = await forumCollection.create(data);
+  res.send(result);
 };
 
-const forumPostGet = (category) => {
-  const res = forumCollection.find({ category: category });
+const forumPostGet = async (req,res) => {
+    const category = req.params.category;
+  const result = await forumCollection.find({ category:category});
   // console.log(res);
-  return res;
+  res.send(result);
 };
 
-const forumSinglePostGet = (id) => {
-  const res = forumCollection.findById(id);
-  return res;
+const forumSinglePostGet = async (req,res) => {
+    const id = req.params.id;
+  const result = await forumCollection.findById(id);
+  res.send(result);
 };
 
-const forumPostComment = async (data) => {
+const forumPostComment = async (req,res) => {
+    const data = req.body;
   const { comment, userEmail, postId, userName, userPhoto } = data;
 
   try {
@@ -28,14 +32,15 @@ const forumPostComment = async (data) => {
 
     await post.save();
 
-    return post;
+    res.send(post);
   } catch (error) {
     console.error("Error updating comment:", error);
     throw error;
   }
 };
 
-const forumPostLike = async (data) => {
+const forumPostLike = async (req,res) => {
+    const data = req.body;
   const { postId, likeEmail } = data;
 
   const fetchPost = await forumCollection.findById(postId);
@@ -55,7 +60,7 @@ const forumPostLike = async (data) => {
       )
       .exec();
     // console.log(post);
-    return "Liked";
+    res.send("Liked") ;
   } else {
     let post = await forumCollection
       .findByIdAndUpdate(
@@ -68,22 +73,22 @@ const forumPostLike = async (data) => {
         }
       )
       .exec();
-    return "Like Removed!!";
+    res.send("Like Removed!!") ;
   }
 };
 
-const forumGetNewestPost = async () => {
+const forumGetNewestPost = async (req,res) => {
   try {
     const posts = await forumCollection.find({}).sort({ date: -1 }).exec();
 
-    return posts;
+    res.send(posts) ;
   } catch (error) {
     console.error("Error fetching newest posts:", error);
     throw error;
   }
 };
 
-const forumPopularPost = async () => {
+const forumPopularPost = async (req,res) => {
   try {
     const posts = await forumCollection
       .aggregate([
@@ -104,33 +109,33 @@ const forumPopularPost = async () => {
         },
       ])
       .exec();
-    console.log(posts);
-    return posts;
+    
+    res.send(posts);
   } catch (error) {
     console.error("Error fetching newest posts:", error);
     throw error;
   }
 };
 
-const forumSearch = async (data) => {
+const forumSearch = async (req,res) => {
+    const data = req.body;
   try {
     const { searchTerm } = data;
-    console.log(searchTerm);
-    console.log("lalal");
   } catch (error) {
     console.log(error);
   }
 };
 
-const forumPostsByEmail = async (email) => {
+const forumPostsByEmail = async (req,res) => {
+    const email = req.params.email;
   try {
     // const {email} = data;
 
     const posts = await forumCollection
       .find({ userEmail: email })
       .sort({ date: -1 });
-    console.log(posts);
-    return posts;
+    
+    res.send(posts);
   } catch (error) {
     console.log(error);
   }

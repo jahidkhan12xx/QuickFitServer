@@ -1,13 +1,14 @@
-const spotLight = require("../../Database/Schema/Spotlight/spotLight")
+const spotLight = require("../../Database/Schema/Spotlight/spotLight.js")
 
-const getSpotlightData = () =>{
-    const res = spotLight.find();
-    return res;
+const getSpotlightData = async (req,res) =>{
+    const result = await spotLight.find();
+    res.send(result);
 }
 
-const getSpotlightSingleData = (id) =>{
-    const res = spotLight.findById(id)
-    return res;
+const getSpotlightSingleData = async (req,res) =>{
+    const id = req.params.id;
+    const result = await spotLight.findById(id)
+    res.send(result);
 }
 
 module.exports = {
