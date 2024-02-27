@@ -1,13 +1,14 @@
 const workout = require("../../Database/Schema/Workout/workout")
 
-const getWorkoutData = () =>{
-    const res = workout.find();
-    return res;
+const getWorkoutData = async(req,res) =>{
+    const result = await workout.find();
+    res.send(result);
 }
 
-const getSingleWorkoutData = (id) =>{
-    const res = workout.findOne({category:id})
-    return res
+const getSingleWorkoutData = async(req,res) =>{
+    const id = req.params.id;
+    const result = await workout.findOne({category:id})
+    res.send(result)
 }
 
 module.exports = {

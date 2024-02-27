@@ -1,9 +1,9 @@
 const { default: mongoose } = require("mongoose");
 const teamsCollection = require("../../Database/Schema/teams/teams");
 
-const getTeamsData = () =>{
-    const res = teamsCollection.find()
-    return res;
+const getTeamsData = async(req,res) =>{
+    const result = await teamsCollection.find()
+    res.send(result);
 }
 
 module.exports = {
