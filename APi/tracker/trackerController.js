@@ -22,13 +22,13 @@ const getTrackerData = async (req, res) => {
   res.send(result);
 };
 
-const currentDate = new Date();
-const year = currentDate.getFullYear();
-const month = currentDate.getMonth() + 1;
-const date = currentDate.getDate();
-const today = year + "-" + month + "-" + date;
-
 const getCurrentTrackerData = async (req, res) => {
+  const currentDate = new Date();
+  const year = currentDate.getFullYear();
+  const month = currentDate.getMonth() + 1;
+  const date = currentDate.getDate();
+  const today = year + "-" + month + "-" + date;
+
   const result = await trackerCollection.find({
     email: req.params.email,
     date: today,
@@ -39,16 +39,6 @@ const getCurrentTrackerData = async (req, res) => {
 
 const getSingleTrackerData = async (req, res) => {
   const result = await trackerCollection.findById(req.params.id);
-  res.send(result);
-};
-
-const getPreviousTrackerData = async (req, res) => {
-  const result = await trackerCollection.find({
-    email: req.params.email,
-    date: {
-      $ne: today,
-    },
-  });
   res.send(result);
 };
 
@@ -64,5 +54,4 @@ module.exports = {
   updateTrackerData,
   getSingleTrackerData,
   deleteTrackerData,
-  getPreviousTrackerData,
 };

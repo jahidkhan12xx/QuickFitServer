@@ -10,7 +10,6 @@ router.patch("/api/v1/tracker/update/:id",updateTrackerData)
 router.get("/api/v1/tracker/:email",getTrackerData)
 router.get("/api/v1/tracker/date/:email",getCurrentTrackerData)
 router.get("/api/v1/tracker/single/:id",getSingleTrackerData)
-router.get("/api/v1/tracker/history/:email", getPreviousTrackerData)
 router.delete("/api/v1/tracker/:id",deleteTrackerData)
 
 module.exports = router
