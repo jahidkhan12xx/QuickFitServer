@@ -1,14 +1,16 @@
 //mongoose model (articles)
 const articleCollection = require("../../Database/Schema/articles/artiles")
 
-const getArticleData = () =>{
-    const res =  articleCollection.find();
-    return res;
+const getArticleData = async(req,res) =>{
+    const result =  await articleCollection.find();
+    res.send(result);
 }
 
-const getArticleSingleData = (id) =>{
-    const res =  articleCollection.findById(id);
-    return res;
+const getArticleSingleData = async(req,res) =>{
+    const id = req.params.id;
+    const result = await  articleCollection.findById(id);
+   
+    res.send(result);
 }
 
 
