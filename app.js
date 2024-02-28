@@ -44,7 +44,7 @@ const chatRoutes = require("./Router/Chat/chatRoutes.js")
 const orderRoutes = require("./Router/PaymentSystem/order/orderRoutes.js")
 const order2Routes = require("./Router/PaymentSystem/Order2/orderRoutes.js")
 const order3Routes = require("./Router/PaymentSystem/Order3/order3Routes.js")
-
+const courseRoutes = require("./Router/Courses/courseRoutes.js")
 
 
 
@@ -116,7 +116,7 @@ app.use(chatRoutes)
 app.use(orderRoutes)
 app.use(order2Routes)
 app.use(order3Routes)
-
+app.use(courseRoutes)
 
 
 //********* Api ends Here *********//
