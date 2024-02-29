@@ -1,2 +1,5 @@
-.vercel,
-.vscode,
+
+.vercel
+.vscode
+node_modules
+
