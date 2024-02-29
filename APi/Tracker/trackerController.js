@@ -38,6 +38,11 @@ const getCurrentTrackerData = async (req, res) => {
 };
 
 const getPreviousTrackerData = async (req, res) => {
+  const currentDate = new Date();
+  const year = currentDate.getFullYear();
+  const month = currentDate.getMonth() + 1;
+  const date = currentDate.getDate();
+  const today = year + "-" + month + "-" + date;
   const result = await trackerCollection.find({
     email: req.params.email,
     date: {
