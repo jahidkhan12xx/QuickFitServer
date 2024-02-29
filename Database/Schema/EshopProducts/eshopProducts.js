@@ -1,4 +1,4 @@
-const { default: mongoose } = require("mongoose");
+const { default: mongoose } = require("mongoose")
 
 const eshopProductSchema = new mongoose.Schema({
   category: String,
@@ -13,4 +13,5 @@ const eshopProductSchema = new mongoose.Schema({
 module.exports = mongoose.model(
   "eshopProduct",
   eshopProductSchema,
-);
+  "eshopProducts"
+)
