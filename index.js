@@ -89,7 +89,6 @@ app.get("/api/v1/chats",async(req,res)=>{
 
 const chatCollection = require("./Database/Schema/chat/chatSchema");
 const { getChat } = require('./APi/chat/chatController');
-const { getCoursesAllData } = require('./APi/Courses/courseController');
 
 io.on("connection",(socket)=>{
     console.log(`User Connected : ${socket.id}`);
@@ -866,16 +865,7 @@ app.delete("/api/v1/tracker/:id", async (req, res)=> {
 
 // exercise tracker api's ends ===
 
-app.get("/api/v1/courses", async(req, res)=> {
-    const result = await getCoursesAllData()
-    res.send(result)
-})
 
-// courses api starts==== 
-
-
-
-// courses api ends ====
 //*********   Common api's here   ************************//
 
 app.get('/', (req, res) => {
