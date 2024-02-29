@@ -5,8 +5,7 @@ const userSchema = new mongoose.Schema({
     email : String,
     image: String,
     role : String,
-    isBlocked : Boolean,
-
+    isBlocked : Boolean
 })
 
 
