@@ -1,4 +1,5 @@
 const courseCollection = require("../../Database/Schema/courses/courses")
+const courseDetailsCollection = require("../../Database/Schema/courses/courseDetails")
 
 
 const getCoursesAllData = async () => {
@@ -6,8 +7,8 @@ const getCoursesAllData = async () => {
     return (result)
   }
 
-const getCoursesCategoryData = async () => {
-  const result = await courseCollection.find({category:req.params.category})
+const getCoursesCategoryData = async (cat) => {
+  const result = await courseCollection.find({category:cat})
   return (result)
 }
 
@@ -16,4 +17,9 @@ const getCoursesSingleData = async () => {
     return (result)
   }
 
-module.exports={getCoursesAllData, getCoursesCategoryData, getCoursesSingleData}
+const getCourseDetailsAllData = async () => {
+  const result = await courseDetailsCollection.find()
+  return (result)
+}
+
+module.exports={getCoursesAllData, getCoursesCategoryData, getCoursesSingleData, getCourseDetailsAllData}
