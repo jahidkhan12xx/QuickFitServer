@@ -21,7 +21,7 @@ const updateOrderData2 = async (id) => {
     return res
 
 }
-
+/* Jaiga moto asbo Inshallah */
 const deleteOrderData2 = async (id) => {
     const res = await orderCollection2.findOneAndDelete({ tranjectionId: id })
     return res
