@@ -8,4 +8,9 @@ const postTrainerData = (data) => {
     return res
 }
 
-module.exports = {postTrainerData}
+const getTrainerData = () =>{
+    const res = trainerCollection.find()
+    return res
+}
+
+module.exports = {postTrainerData,getTrainerData}

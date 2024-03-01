@@ -34,7 +34,7 @@ const { addComment, getComment } = require('./APi/Comment/commentController');
 const { getTeamsData } = require('./APi/teams/teamsController');
 const { getExpertsData } = require('./APi/experts/expertsController');
 const { getServicesData } = require('./APi/services/services');
-const { postTrainerData } = require('./APi/Trainer/teainerHire');
+const { postTrainerData, getTrainerCollection, getTrainerData } = require('./APi/Trainer/teainerHire');
 
 
 
@@ -824,7 +824,15 @@ app.get("/api/v1/services", async (req, res) => {
     const result = await postTrainerData(trainer);
     res.send(result)
  })
+ 
+
+
+app.get("/api/v1/adminDashboard/trainerRequest", async(req,res) =>{
+    const result = await getTrainerData()
+    res.send(result)
+})
  //*********   Trainer api's ends here   ************************//
+ 
  
 
 

@@ -6,6 +6,7 @@ const getServicesData = () =>{
     return res;
 }
 
+
 module.exports = {
     getServicesData
 };
