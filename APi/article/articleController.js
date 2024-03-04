@@ -14,12 +14,14 @@ const getArticleSingleData = (id) =>{
 const postArticleData = async (data) => {
     const res =  await articleCollection.create(data)
     return res
+    
   }
 
   const deleteArticleData = async (id)=> {
     const res = await articleCollection.findByIdAndDelete(id)
     return res;
   }
+
 
 
 module.exports = {
