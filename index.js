@@ -90,6 +90,7 @@ app.get("/api/v1/chats",async(req,res)=>{
 const chatCollection = require("./Database/Schema/chat/chatSchema");
 const { getChat } = require('./APi/chat/chatController');
 const { getCoursesAllData, getCoursesCategoryData,  getCourseDetailsAllData } = require('./APi/Courses/courseController');
+const { getReviewsData } = require('./APi/reviews/reviewsController');
 
 io.on("connection",(socket)=>{
     console.log(`User Connected : ${socket.id}`);
@@ -869,6 +870,16 @@ app.delete("/api/v1/tracker/:id", async (req, res)=> {
 })
 
 // exercise tracker api's ends ===
+
+
+// ===== reviews api starts here ===
+
+app.get("/api/v1/reviews", async (req, res) => {
+    const result = await getReviewsData()
+    res.send(result)
+})
+
+// ===== reviews api end here ===
 
 
 // ===== courses all api starts ===
